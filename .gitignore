@@ -1,0 +1,7 @@
+
+# adversyn
+node_modules/
+dist/
+out/
+.env
+.workshop-state.json

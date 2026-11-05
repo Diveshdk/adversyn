@@ -1,0 +1,17 @@
+{
+  "name": "@adversyn/cli",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@adversyn/analyzer": "workspace:*",
+    "@adversyn/core": "workspace:*",
+    "@adversyn/executor": "workspace:*",
+    "@adversyn/policy": "workspace:*",
+    "@adversyn/protocol": "workspace:*",
+    "@adversyn/reporter": "workspace:*",
+    "@adversyn/scenarios": "workspace:*",
+    "commander": "^15.0.0"
+  }
+}

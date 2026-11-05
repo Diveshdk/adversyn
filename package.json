@@ -1,0 +1,24 @@
+{
+  "name": "adversyn",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "adversyn": "tsx packages/cli/src/index.ts"
+  },
+  "devDependencies": {
+    "@adversyn/analyzer": "workspace:*",
+    "@adversyn/core": "workspace:*",
+    "@adversyn/executor": "workspace:*",
+    "@adversyn/policy": "workspace:*",
+    "@adversyn/protocol": "workspace:*",
+    "@adversyn/reporter": "workspace:*",
+    "@adversyn/scenarios": "workspace:*",
+    "@adversyn/testkit": "workspace:*",
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0"
+  }
+}

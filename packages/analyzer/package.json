@@ -1,0 +1,11 @@
+{
+  "name": "@adversyn/analyzer",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@adversyn/core": "workspace:*",
+    "@adversyn/policy": "workspace:*"
+  }
+}
