@@ -1,0 +1,15 @@
+id: valid-budget-staked
+title: 500,000 verification gas for a staked sender
+description: >
+  Allowed only if the sender is staked. Needs a staking registry on the target,
+  so it cannot run on the local devnet (no registry deployed).
+tags: [valid, budget, needs-stake]
+exercises: [BUDGET-010]
+stake: { sender: true }
+frames:
+  - role: self_verify
+    mode: VERIFY
+    target: sender
+    limits: { execution: 500000 }
+expect:
+  verdict: accept

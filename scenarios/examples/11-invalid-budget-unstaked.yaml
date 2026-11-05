@@ -1,0 +1,13 @@
+id: invalid-budget-unstaked
+title: 100,001 verification gas for an unstaked sender
+description: One gas over the unstaked per-entity limit (100,000).
+tags: [invalid, budget]
+exercises: [BUDGET-010]
+frames:
+  - role: self_verify
+    mode: VERIFY
+    target: sender
+    limits: { execution: 100001 }
+expect:
+  verdict: reject
+  ruleIds: [BUDGET-010]

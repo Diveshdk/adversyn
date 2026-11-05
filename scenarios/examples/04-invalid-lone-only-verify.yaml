@@ -1,0 +1,17 @@
+id: invalid-lone-only-verify
+title: only_verify with no pay frame
+description: No frame sets the payer, so the prefix shape is not allowed.
+tags: [invalid, structure]
+exercises: [PREFIX-010]
+frames:
+  - role: only_verify
+    mode: VERIFY
+    target: sender
+    limits: { execution: 30000 }
+  - role: execution
+    mode: SENDER
+    target: "0x8943545177806ED17B9F23F0a21ee5948eCaa776"
+    limits: { execution: 50000 }
+expect:
+  verdict: reject
+  ruleIds: [PREFIX-010]

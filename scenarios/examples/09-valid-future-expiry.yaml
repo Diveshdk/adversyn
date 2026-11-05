@@ -1,0 +1,17 @@
+id: valid-future-expiry
+title: expiry_verify deadline far in the future
+description: Deadline 4102444800 (year 2100). Placeholder expiry verifier target.
+tags: [valid, expiry]
+exercises: [PREFIX-080]
+frames:
+  - role: expiry_verify
+    mode: VERIFY
+    target: "0x0000000000000000000000000000000000000000"
+    limits: { execution: 5000 }
+    extra: { deadline: 4102444800 }
+  - role: self_verify
+    mode: VERIFY
+    target: sender
+    limits: { execution: 30000 }
+expect:
+  verdict: accept

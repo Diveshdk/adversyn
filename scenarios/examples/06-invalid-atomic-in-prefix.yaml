@@ -1,0 +1,14 @@
+id: invalid-atomic-in-prefix
+title: atomic batch flag on a prefix frame
+description: No validation-prefix frame may carry the atomic batch flag.
+tags: [invalid, flags]
+exercises: [PREFIX-040]
+frames:
+  - role: self_verify
+    mode: VERIFY
+    target: sender
+    limits: { execution: 30000 }
+    atomicBatch: true
+expect:
+  verdict: reject
+  ruleIds: [PREFIX-040]

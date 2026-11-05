@@ -1,0 +1,16 @@
+id: valid-pre-verify
+title: pre_verify frame before the approving frame
+description: A DEFAULT-mode pre_verify frame whose target is the approving frame's target.
+tags: [valid, pre-verify]
+exercises: [PREFIX-010, PREFIX-120]
+frames:
+  - role: pre_verify
+    mode: DEFAULT
+    target: sender
+    limits: { execution: 20000 }
+  - role: self_verify
+    mode: VERIFY
+    target: sender
+    limits: { execution: 30000 }
+expect:
+  verdict: accept

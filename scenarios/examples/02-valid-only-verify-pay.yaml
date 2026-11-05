@@ -1,0 +1,20 @@
+id: valid-only-verify-pay
+title: only_verify then pay (sponsored shape)
+description: Sender approves execution, a separate payer approves payment.
+tags: [valid, sponsored]
+exercises: [PREFIX-010, BUDGET-010]
+frames:
+  - role: only_verify
+    mode: VERIFY
+    target: sender
+    limits: { execution: 30000 }
+  - role: pay
+    mode: VERIFY
+    target: "0x2222222222222222222222222222222222222222"
+    limits: { execution: 50000 }
+  - role: execution
+    mode: SENDER
+    target: "0x8943545177806ED17B9F23F0a21ee5948eCaa776"
+    limits: { execution: 50000 }
+expect:
+  verdict: accept

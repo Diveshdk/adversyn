@@ -1,0 +1,17 @@
+id: valid-self-verify
+title: Single self_verify frame (baseline)
+description: The simplest valid prefix, an EOA that verifies and pays for itself.
+tags: [baseline, valid]
+exercises: [PREFIX-010]
+frames:
+  - role: self_verify
+    mode: VERIFY
+    target: sender
+    limits: { execution: 30000 }
+  - role: execution
+    mode: SENDER
+    target: "0x8943545177806ED17B9F23F0a21ee5948eCaa776"
+    limits: { execution: 50000, state: 200000 }
+    value: "1000000000"
+expect:
+  verdict: accept

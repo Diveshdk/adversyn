@@ -1,0 +1,17 @@
+id: invalid-stray-default-frame
+title: DEFAULT-mode frame that is neither deploy nor pre_verify
+description: Only deploy and pre_verify may be non-static DEFAULT frames in the prefix.
+tags: [invalid, structure]
+exercises: [PREFIX-010, PREFIX-120]
+frames:
+  - role: execution
+    mode: DEFAULT
+    target: "0x8943545177806ED17B9F23F0a21ee5948eCaa776"
+    limits: { execution: 5000 }
+  - role: self_verify
+    mode: VERIFY
+    target: sender
+    limits: { execution: 30000 }
+expect:
+  verdict: reject
+  ruleIds: [PREFIX-010, PREFIX-120]

@@ -1,0 +1,21 @@
+id: invalid-deploy-not-first
+title: deploy frame placed after only_verify
+description: A deploy frame must be first in the prefix.
+tags: [invalid, structure]
+exercises: [PREFIX-010, PREFIX-020]
+frames:
+  - role: only_verify
+    mode: VERIFY
+    target: sender
+    limits: { execution: 30000 }
+  - role: deploy
+    mode: DEFAULT
+    target: "0x3333333333333333333333333333333333333333"
+    limits: { execution: 30000 }
+  - role: pay
+    mode: VERIFY
+    target: "0x2222222222222222222222222222222222222222"
+    limits: { execution: 30000 }
+expect:
+  verdict: reject
+  ruleIds: [PREFIX-010, PREFIX-020]
