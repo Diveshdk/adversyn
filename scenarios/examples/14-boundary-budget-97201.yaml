@@ -1,0 +1,13 @@
+id: boundary-budget-97201
+title: 97,201 verification gas for an unstaked sender (one over)
+description: 97,201 plus 2,800 is 100,001, one over the limit.
+tags: [boundary, budget, invalid]
+exercises: [BUDGET-010]
+frames:
+  - role: self_verify
+    mode: VERIFY
+    target: sender
+    limits: { execution: 97201 }
+expect:
+  verdict: reject
+  ruleIds: [BUDGET-010]

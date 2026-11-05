@@ -118,23 +118,24 @@ function entityOf(f: Frame, next: Frame | undefined): Entity | null {
 const budget010: Rule = {
   id: "BUDGET-010",
   summary: "Per-entity verification gas: 100k unstaked, 1M staked",
-  evaluate(s: Scenario, p: PrefixInfo) {
+  evaluate(s: Scenario, p: PrefixInfo, ctx: EvalContext) {
     if (!p.hasApprover) return na("BUDGET-010", "no prefix");
     const totals: Record<Entity, number> = { sender: 0, payer: 0, factory: 0 };
     p.frames.forEach((f, i) => {
       const e = entityOf(f, p.frames[i + 1]);
       if (e) totals[e] += f.limits.execution;
     });
+    if (s.signature !== "none") totals.sender += ctx.sigVerifyCost ?? 0;
     for (const e of ["sender", "payer", "factory"] as const) {
       const cap = s.stake[e] ? MAX_VERIFY_GAS_STAKED_ENTITY : MAX_VERIFY_GAS_PER_ENTITY;
       if (totals[e] > cap) {
         return fail(
           "BUDGET-010",
-          `${e} verification gas ${totals[e]} exceeds ${cap} (${s.stake[e] ? "staked" : "unstaked"}); signature intrinsic cost not modelled`,
+          `${e} verification gas ${totals[e]} exceeds ${cap} (${s.stake[e] ? "staked" : "unstaked"}); sender signature cost ${ctx.sigVerifyCost ?? 0} included`,
         );
       }
     }
-    return pass("BUDGET-010", "signature intrinsic cost not modelled");
+    return pass("BUDGET-010", ctx.sigVerifyCost ? "sender signature cost " + ctx.sigVerifyCost + " included (calibrated)" : "signature intrinsic cost not modelled");
   },
 };
 

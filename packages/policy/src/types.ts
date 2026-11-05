@@ -3,6 +3,7 @@ import type { PrefixInfo } from "./prefix.js";
 
 export interface EvalContext {
   nowSec: number;
+  sigVerifyCost?: number;
 }
 
 export interface RuleOutcome {

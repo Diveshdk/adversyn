@@ -17,7 +17,7 @@ const fr = (role: string, mode: string, execution: number, extra: F = {}): F => 
 const sc = (frames: F[], stake: F = {}) =>
   parseScenario({ id: "t", title: "t", frames, stake });
 
-const run = (frames: F[], stake: F = {}) => predict(sc(frames, stake), { nowSec: NOW });
+const run = (frames: F[], stake: F = {}) => predict(sc(frames, stake), { nowSec: NOW, sigVerifyCost: 0 });
 
 describe("policy: structural rules", () => {
   it("accepts a lone self_verify", () => {

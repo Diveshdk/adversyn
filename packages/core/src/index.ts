@@ -5,3 +5,4 @@ export * from "./policy.js";
 export * from "./scenario.js";
 export * from "./observation.js";
 export * from "./finding.js";
+export * from "./report.js";

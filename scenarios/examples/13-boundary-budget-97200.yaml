@@ -1,0 +1,12 @@
+id: boundary-budget-97200
+title: 97,200 verification gas for an unstaked sender (at the limit)
+description: 97,200 plus the observed 2,800 signature cost equals exactly 100,000.
+tags: [boundary, budget, valid]
+exercises: [BUDGET-010]
+frames:
+  - role: self_verify
+    mode: VERIFY
+    target: sender
+    limits: { execution: 97200 }
+expect:
+  verdict: accept
