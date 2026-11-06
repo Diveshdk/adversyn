@@ -9,6 +9,12 @@ export interface ReasonPattern {
 
 export const REASON_PATTERNS: ReasonPattern[] = [
   {
+    ruleId: "PREFIX-010",
+    pattern: /frame transaction validation prefix not recognized/i,
+    observedExample: "frame transaction validation prefix not recognized",
+    observedAt: "public devnet, 2026-11-06 (generic shape rejection; may also cover other prefix-shape rules)",
+  },
+  {
     ruleId: "PREFIX-050",
     pattern: /is a VERIFY frame after the validation prefix/i,
     observedExample: "frame 2 is a VERIFY frame after the validation prefix (ends at index 0)",

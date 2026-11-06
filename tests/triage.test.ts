@@ -41,3 +41,16 @@ describe("executor skips", () => {
     expect(r.kind).toBe("skipped");
   });
 });
+
+describe("PREFIX-010 wording from the real devnet", () => {
+  it("attributes the generic prefix rejection to PREFIX-010", () => {
+    const s = get("invalid-lone-only-verify");
+    const r = compare(
+      s,
+      predict(s),
+      makeObservation(s, rejected(-32602, "frame transaction validation prefix not recognized")),
+    );
+    expect(r.result).toBe("pass");
+    expect(r.observed.ruleIds).toEqual(["PREFIX-010"]);
+  });
+});
