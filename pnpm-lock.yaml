@@ -41,6 +41,9 @@ importers:
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
+      viem:
+        specifier: ^2.57.16
+        version: 2.57.16(typescript@7.0.2)(zod@4.6.7)
       vitest:
         specifier: ^5.1.0
         version: 5.1.0(@types/node@26.6.6)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.23.15)(yaml@2.9.1))
@@ -95,6 +98,9 @@ importers:
       '@adversyn/protocol':
         specifier: workspace:*
         version: link:../protocol
+      '@forshtat/hegota-support':
+        specifier: ^0.0.1
+        version: 0.0.1(viem@2.57.16(typescript@7.0.2)(zod@4.6.7))
       viem:
         specifier: ^2.57.16
         version: 2.57.16(typescript@7.0.2)(zod@4.6.7)
@@ -113,6 +119,9 @@ importers:
       '@adversyn/core':
         specifier: workspace:*
         version: link:../core
+      '@forshtat/hegota-support':
+        specifier: ^0.0.1
+        version: 0.0.1(viem@2.57.16(typescript@7.0.2)(zod@4.6.7))
       viem:
         specifier: ^2.57.16
         version: 2.57.16(typescript@7.0.2)(zod@4.6.7)
@@ -301,6 +310,16 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@forshtat/hegota-support@0.0.1':
+    resolution: {integrity: sha512-F6ZvduwrMBjzjoYE85DH7JHRaDyx2V2+kgSsi2eUDLiAJR1uiqp6mRzkYOLA+Y3pjxDpw60Z07mTer/4bebcZQ==}
+    engines: {node: '>=20.12'}
+    peerDependencies:
+      solc: 0.8.28
+      viem: ^2.57.0
+    peerDependenciesMeta:
+      solc:
+        optional: true
 
   '@jridgewell/resolve-uri@3.1.2':
     resolution: {integrity: sha512-bRISgCIjP20/tbWSPWMEi54QVPRZExkuD9lJL+UIxUKtwVJA8wW1Trb1jMs1RFXo1CBTNZ/5hpC9QvmKWdopKw==}
@@ -978,6 +997,10 @@ snapshots:
 
   '@esbuild/win32-x64@0.28.2':
     optional: true
+
+  '@forshtat/hegota-support@0.0.1(viem@2.57.16(typescript@7.0.2)(zod@4.6.7))':
+    dependencies:
+      viem: 2.57.16(typescript@7.0.2)(zod@4.6.7)
 
   '@jridgewell/resolve-uri@3.1.2': {}
 

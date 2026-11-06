@@ -6,6 +6,7 @@
   "exports": "./src/index.ts",
   "dependencies": {
     "@adversyn/core": "workspace:*",
+    "@forshtat/hegota-support": "^0.0.1",
     "viem": "^2.57.16"
   }
 }

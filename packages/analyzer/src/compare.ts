@@ -47,6 +47,17 @@ export function compare(scenario: Scenario, prediction: Prediction, obs: Observa
     return { ...base, result: "error", notes: ["submission failed before a verdict: " + (o.texts[0] ?? "unknown error")] };
   }
 
+  if (o.stage === "validation") {
+    return {
+      ...base,
+      result: "inconclusive",
+      notes: [
+        "node ran validation code and it failed; the policy has no oracle for validation-code behaviour (signatures, contract logic)",
+        ...o.texts.map((t) => "node said: " + t),
+      ],
+    };
+  }
+
   if (prediction.verdict === "accept") {
     if (o.verdict === "accept") {
       const notes =
@@ -73,7 +84,7 @@ export function compare(scenario: Scenario, prediction: Prediction, obs: Observa
     return { ...base, result: "finding", notes: [f.title], finding: f };
   }
   if (o.ruleIds.length === 0) {
-    return { ...base, result: "inconclusive", notes: ["both reject, but the reason text is not recognised; verdict agrees, rule attribution unknown"] };
+    return { ...base, result: "inconclusive", notes: ["both reject, but the reason text is not recognised; verdict agrees, rule attribution unknown", ...o.texts.map((t) => "node said: " + t)] };
   }
   if (o.ruleIds.every((id) => prediction.violated.includes(id))) {
     return { ...base, result: "pass", notes: [] };

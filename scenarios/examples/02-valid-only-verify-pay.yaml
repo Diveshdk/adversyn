@@ -1,7 +1,10 @@
 id: valid-only-verify-pay
 title: only_verify then pay (sponsored shape)
-description: Sender approves execution, a separate payer approves payment.
-tags: [valid, sponsored]
+description: >
+  Sender approves execution, a separate payer approves payment. The payer must be a
+  deployed paymaster contract; 0x2222... is a placeholder, so this is skipped until
+  Adversyn can deploy or locate one.
+tags: [valid, sponsored, needs-deployed-contract]
 exercises: [PREFIX-010, BUDGET-010]
 frames:
   - role: only_verify
