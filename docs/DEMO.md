@@ -1,196 +1,89 @@
-# Adversyn
+# Adversyn: 3-minute demo script
 
-**Adversarial conformance testing for EIP-8141 Frame Transactions and alternative mempools.**
+Goal: show a tool that tells the truth about a real alt-mempool node, including what it cannot conclude and what changed under it.
 
-Adversyn sends crafted Frame Transactions to a real alt-mempool sidecar, records exactly what the node says, and compares that against a versioned policy derived from ERC-8421. Where the node and the spec disagree, Adversyn produces a structured finding. Where it cannot tell, it says so.
+## Before you record (5 minutes)
 
-```
-Generate → Execute → Observe → Analyze → Reproduce → Mitigate → Retest
-```
+- [ ] `pnpm install && pnpm test` is green and `git status` is clean.
+- [ ] Run the live set once and keep it as your fallback: `pnpm adversyn run --only invalid-lone-only-verify,invalid-deploy-not-first,invalid-atomic-in-prefix,invalid-verify-after-prefix --out out/demo-backup`
+- [ ] Browser tabs open: the explorer pages for both admitted transactions (links in `docs/evidence/README.md`), and `docs/evidence/budget-drift/README.md`.
+- [ ] Terminal font is large, window is wide, `clear` before each section.
+- [ ] Check that the README's statement about how AI was used matches what you actually did.
+- [ ] Before using the last mutant in the live section, try it once yourself (see 1:50). If the result differs from the saved report, use the saved report.
 
-Adversyn is **not** a mempool, an explorer, an EVM, a generic contract auditor, or a replacement for the alt-mempool sidecar. It is the testing and analysis layer around that infrastructure.
+## Script
 
-> **Status: early.** Built at ETHGlobal Mumbai. The generate → execute → observe → analyze → report loop works end to end against the public alt-mempool devnet. Minimization, differential testing and trace-based rules are not built yet (see [Roadmap](#roadmap)).
+### 0:00 - 0:25 · The problem
 
-## What it found so far
+> "EIP-8141 lets a transaction carry validation logic. Alternative mempools like ERC-8421's decide which of those transactions to admit, using rules plus stake and reputation. If a node drifts from the spec, you get valid transactions rejected or attacks admitted. Adversyn is a testing layer that checks a real node against the spec. It is not another mempool. It is the thing that attacks one."
 
-Against the public devnet sidecar (`altmempoolgateway.forshtat.com`, chain 1337), using throwaway unfunded keys:
+Show: the README's pipeline diagram.
 
-| Rule (ERC-8421) | Confirmed enforced by the node | Node's wording (captured) |
-|---|---|---|
-| `PREFIX-010` prefix shape | yes | `frame transaction validation prefix not recognized` |
-| `PREFIX-040` no atomic flag in prefix | yes | `frame 0 in validation prefix has ATOMIC_BATCH_FLAG set` |
-| `PREFIX-050` no VERIFY after prefix | yes | `frame 2 is a VERIFY frame after the validation prefix (ends at index 0)` |
-| `BUDGET-010` verification gas budget | yes | `validation prefix execution gas sum 100001 + signature-verification cost 2800 = 102801 exceeds MAX_VERIFY_GAS 100000` |
-
-### A measured calibration
-
-ERC-8421 says the intrinsic cost of validating the transaction's signatures counts toward the sender's 100,000 gas budget, but does not give a number. The sidecar reports **2,800** for a secp256k1 signature. Adversyn encodes that as an *observed* parameter (not a spec constant) and pins it with two boundary scenarios:
-
-| Sender verification gas | + signature cost | Result |
-|---|---|---|
-| 97,200 | = 100,000 | passes the structural checks |
-| 97,201 | = 100,001 | rejected for `BUDGET-010` |
-
-So the effective limit for an unstaked sender is **97,200**, not 100,000.
-
-### Latest run
-
-```
-14 scenarios: 8 pass, 0 findings, 6 inconclusive/skipped, 0 errors
-```
-
-See [`docs/sample-report.md`](docs/sample-report.md) for the full table, or run it yourself below.
-
-## How it handles uncertainty
-
-The goal is findings you can trust, so Adversyn is deliberately conservative:
-
-- **Observations are facts; findings are judgments.** The executor records what the node said. Only the analyzer decides whether that matches the policy.
-- **Policy is versioned, not hardcoded.** Rules are keyed by their ERC-8421 IDs and tagged with the spec commit (`erc-8421@74a868cd`). Nothing is invented where the spec is silent.
-- **Unknown wording is never guessed.** A rejection whose text matches no known pattern is `INCONCLUSIVE` (verdict agrees, attribution unknown), never a finding. Every known pattern in [`reasons.ts`](packages/analyzer/src/reasons.ts) records the exact text and the date it was observed.
-- **Stage-aware.** An unfunded sender stops at the solvency check, which runs before simulation. Adversyn treats that as proof of the *structural* rules only. A scenario whose predicted violation needs simulation (for example `PREFIX-020`, `PREFIX-120`) is reported as inconclusive until it can be run with a funded key.
-- **Honest accounting.** Every report lists skipped scenarios and why.
-
-## Pipeline
-
-```
- scenarios/examples/*.yaml
-          │  load + validate (zod)
-          ▼
- ┌─────────────────┐   predict()    ┌──────────────────┐
- │  @adversyn/     │───────────────▶│  @adversyn/      │
- │  scenarios      │                │  policy          │
- └────────┬────────┘                │  (ERC-8421 rules)│
-          │ compile + sign          └────────┬─────────┘
-          ▼                                  │ expected verdict + rule IDs
- ┌─────────────────┐                         │
- │  @adversyn/     │  wire tx                │
- │  protocol       │───────┐                 │
- │ (hegota-support)│       ▼                 │
- └─────────────────┘  ┌──────────────┐       │
-                      │ @adversyn/   │ eth_sendFrameTransaction
-                      │ executor     │──────────▶  alt-mempool sidecar
-                      └──────┬───────┘ ◀──────────  (admit / reject + reason text)
-                             │ Observation (facts only)
-                             ▼                 │
-                      ┌──────────────┐◀────────┘
-                      │ @adversyn/   │
-                      │ analyzer     │  pass / finding / inconclusive
-                      └──────┬───────┘
-                             ▼
-                      ┌──────────────┐
-                      │ @adversyn/   │  results.json · findings.json · report.md
-                      │ reporter     │
-                      └──────────────┘
-```
-
-## Quick start
-
-Requires Node 22+ and pnpm.
+### 0:25 - 1:10 · Live against the real devnet
 
 ```bash
-pnpm install
-pnpm test                      # 60+ offline tests, no network needed
-pnpm adversyn run              # run all example scenarios against the public devnet
+pnpm adversyn run --only invalid-lone-only-verify,invalid-deploy-not-first,invalid-atomic-in-prefix,invalid-verify-after-prefix
 ```
 
-Useful options:
+> "Each scenario is a frame transaction crafted to break one rule. Adversyn predicts the verdict from the ERC-8421 rules, sends it to the public sidecar, and compares. Look at the lines under each result: that is the node's own wording, saved with the result."
+
+Point at `invalid-atomic-in-prefix`: the node said `frame 0 in validation prefix has ATOMIC_BATCH_FLAG set`, which is `PREFIX-040`, and the verdict matches the prediction.
+
+### 1:10 - 1:50 · It was admitted
+
+Open the explorer tab for `0x430ef707…3854`.
+
+> "A valid transaction from Adversyn, admitted by the sidecar. The admission report shows every rule passed. Admitted means accepted into the pool. This one was still waiting to be mined when I captured it."
+
+Open the tab for `0xfcbd6c9f…533f`.
+
+> "This one is on chain. It has a first frame that deploys nothing. The spec says a deploy frame must deploy the sender, and my static policy does not check that clause, so I cannot call this a bug. It is an open question for the maintainers, and it is written down as one."
+
+### 1:50 - 2:30 · Mutation
 
 ```bash
-pnpm adversyn run --only boundary-budget-97200,boundary-budget-97201
-pnpm adversyn run --rpc http://localhost:14337/rpc/ --chain-id 9     # a local sidecar
-pnpm adversyn run --out out/my-run --fail-on-finding                 # exit 1 on any finding
+pnpm adversyn mutate --only valid-self-verify --operators atomic-flag --out out/demo-mutants
 ```
 
-Reports are written to `out/<run-id>/` (`results.json`, `findings.json`, `report.md`).
+> "Mutation is offline. It generates controlled variants of a scenario, deterministically, each with the policy's prediction and its provenance. Nothing is sent yet."
 
-### Funded runs
-
-By default each scenario uses a fresh throwaway key with no balance. That is enough for the structural rules, but valid transactions then stop at the solvency check. To go further, fund a **fresh, dedicated** key and pass it in:
+Then run one committed mutant:
 
 ```bash
-ADVERSYN_PRIVATE_KEY=0x... pnpm adversyn run --only valid-self-verify
+pnpm adversyn run scenarios/generated/scenarios --only valid-self-verify.atomic-flag.9172d677
 ```
 
-Never reuse a real key, and never commit one (`.env` is git-ignored).
+> "Prediction matched the node."
 
-## Scenarios
+Then show the second mutant from the saved report, `docs/evidence/mutants/mutant-run-3/report.md`: the policy predicted accept, the node rejected it with "Frame 1: atomic batch flag on last frame".
 
-Scenarios are declarative YAML, validated by a schema, and carry their own expectation:
+> "My policy was wrong here. That rule comes from EIP-8141, not ERC-8421, and my policy only encodes ERC-8421. The tool found a gap in its own predictions, so I documented it as a follow-up."
 
-```yaml
-id: invalid-verify-after-prefix
-title: VERIFY frame in the execution body
-exercises: [PREFIX-050]
-frames:
-  - role: self_verify
-    mode: VERIFY
-    target: sender
-    limits: { execution: 30000 }
-  - role: execution
-    mode: VERIFY
-    target: "0x8943545177806ED17B9F23F0a21ee5948eCaa776"
-    limits: { execution: 5000 }
-expect:
-  verdict: reject
-  ruleIds: [PREFIX-050]
-```
+(That mutant has been run with a funded key. Running it live with a throwaway key has not been tried, so use the saved report unless you have tested it.)
 
-`role` is an authoring label. It does not exist on the wire: the node infers roles from frame modes, scopes and positions, and Adversyn's policy does the same where it matters. A test checks that every example agrees with the policy, so a wrong `expect` fails in CI.
+### 2:30 - 2:50 · A measurement that stopped reproducing
 
-Scenarios the compiler cannot map yet (or that need contracts, stake, or an expiry verifier) are skipped with an explicit reason, not guessed at.
+Show `docs/evidence/budget-drift/README.md`.
 
-## Repository layout
+> "This morning the node rejected 97,201 gas for BUDGET-010, and I measured the real boundary at 97,200 with the node's own signature cost. Later the devnet maintainer restarted the devnet without gas limits, and the same scenarios are now accepted. I did not report a vulnerability. I saved before and after runs and wrote down the cause. Adversyn dates its claims for exactly this reason."
 
-```
-packages/
-  core/        shared schemas: Scenario, Observation, Finding, Report; canonical hashing; fingerprints
-  protocol/    scenario → signed wire transaction (wraps @forshtat/hegota-support)
-  policy/      versioned ERC-8421 rule evaluators and predict()
-  scenarios/   YAML loader
-  executor/    submit to a sidecar and record an Observation
-  analyzer/    node reason text → rule attribution; compare prediction vs observation
-  reporter/    JSON and Markdown reports
-  cli/         `adversyn run`
-  testkit/     fixtures, including real captured node rejections
-scenarios/examples/   14 example scenarios
-tests/                cross-package tests
-apps/dashboard/       not started
-```
+### 2:50 - 3:00 · What's next
 
-## Known limitations
+> "Next: the EIP-8141 constraints in the policy, a funded run for the simulation-dependent rules, deployed paymasters and stake, and a minimizer for reproducible findings. The open spec questions are in docs/LIMITATIONS.md."
 
-Please read these before trusting a result.
+## If something goes wrong
 
-- **Structural rules only.** Opcode, storage, calling, creation, reputation and lifecycle rules (`OPCODES-*`, `STORAGE-*`, `CALLING-*`, `CREATION-010`, `REPUTATION-*`, `LIFECYCLE-*`, `LOCAL-*`) are *not evaluated*. Every prediction lists them as unevaluated.
-- **Unfunded keys stop at solvency.** A "pass" at the solvency stage means the structural rules held, nothing more.
-- **Skipped scenarios (6 of 14):** two need a deployed contract (a paymaster, or a sender with code for `PREFIX-110`), two need the expiry verifier address for `PREFIX-080`, one needs stake in the registry, and one (`invalid-stray-default-frame`) is masked by the solvency stage and needs a funded run.
-- **Rule attribution is text-based.** The sidecar reports rejections as text. Adversyn matches known wording. The node reports a generic message for several prefix-shape rules, so `PREFIX-020` and `PREFIX-120` currently show up attributed to `PREFIX-010`.
-- **Spec pin.** The policy is tagged `erc-8421@74a868cd`, the commit the alt-mempool workshop pins. The rule text used to write it was read from the `pr-clean` branch of the ERC draft; whether that is identical to the pinned commit has not been verified.
-- **Draft specs.** EIP-8141 and ERC-8421 are drafts and devnets track different revisions. Expect rules and wording to change.
-- **One observed constant.** The 2,800-gas signature cost is measured from a single node and is not in the spec.
+| Problem | What to do |
+|---|---|
+| Devnet unreachable (`RPC_UNREACHABLE` errors) | Say so, then `cat out/demo-backup/report.md` and narrate from the saved run, saying when it was captured. |
+| A new `FINDING` appears live | Do not claim a node bug. Say: "that's a candidate. I check it against the spec text before believing it", then read the report entry. |
+| The devnet was restarted and behaviour changed | Say that is the point of the budget-drift story, and show the saved runs. |
+| Run is slow | Use `--only` with two scenarios. |
 
-## Responsible use
+## Do not claim
 
-Adversyn submits real transactions to shared infrastructure. Use fresh throwaway keys, keep the default pacing between submissions, and do not run mass-invalidation or reputation-burning traffic against a shared devnet. If a run reveals the node admitting something the spec forbids, report it to the maintainers before publishing it.
-
-## Roadmap
-
-1. Funded runs: one admitted transaction, plus the simulation-dependent rules (`PREFIX-020`, `PREFIX-120`, `PREFIX-110`).
-2. Unlock the remaining scenarios: expiry verifier, deployed paymaster/wallet, staking.
-3. Trace-based rules via the sidecar's simulation method, if exposed.
-4. Differential testing: canonical mempool vs alternative mempool.
-5. Minimizer and `adversyn replay` for reproducible bundles.
-6. Dashboard.
-
-## Built with
-
-- [`@forshtat/hegota-support`](https://github.com/forshtat/hegota-support) for frame construction, signing and the wire format.
-- The alt-mempool sidecar and devnet from the ERC-8421 workshop, and the ERC-8421 and EIP-8141 drafts.
-- TypeScript, pnpm workspaces, zod, viem, vitest.
-
-
-## License
-
-MIT
+- That Adversyn found a node bug or a vulnerability. It did not.
+- That an admission is the same as a mined transaction. Only `0xfcbd6c9f…533f` was seen on chain.
+- That a PASS at the solvency stage means the whole transaction is valid.
+- That rules outside the structural set (opcodes, storage, reputation) are tested.
+- That the 97,200 boundary is current. It was true that morning and no longer reproduces.

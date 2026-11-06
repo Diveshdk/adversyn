@@ -4,7 +4,7 @@ State as of 2026-11-06. Nothing here is a confirmed vulnerability.
 
 ## Spec pin
 
-- The policy is tagged `erc-8421@74a868cd`. That commit is not in the `pr-clean` branch of forshtat/ERCs (checked 2026-11-06: the file has five commits there, from 2026-09-29, head `493ba8a`, 2026-10-01).
+- The policy is tagged `erc-8421@74a868cd`, the commit the alt-mempool workshop pins. That commit is not in the `pr-clean` branch of forshtat/ERCs (checked 2026-11-06: the file has five commits there, from 2026-09-29, head `493ba8a`, 2026-10-01).
 - Between the first commit (`8da5b7f`) and the head, no changed line mentions PREFIX-, BUDGET-, MAX_VERIFY, SIGNATURE-010, deploy, pre_verify or expiry_verify, and the PREFIX and BUDGET rule ids are the same. The encoded rules therefore match every version on that branch.
 - The tag has not been changed. Re-pinning to `493ba8a` is a separate, explicit change (it rewrites `provenance.policy` in the generated scenarios and the manifest).
 
