@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "policy": "erc-8421-static:erc-8421@74a868cd",
+    "target": "https://altmempoolgateway.forshtat.com/rpc",
+    "generatedAt": "2026-11-06T14:50:03.315Z"
+  },
+  "entries": [
+    {
+      "scenarioId": "valid-self-verify",
+      "title": "Single self_verify frame (baseline)",
+      "predicted": {
+        "verdict": "accept",
+        "ruleIds": []
+      },
+      "observed": {
+        "verdict": "accept",
+        "ruleIds": [],
+        "stage": "admitted"
+      },
+      "result": "pass",
+      "notes": [
+        "admitted, tx hash 0x430ef7075e47898eb79f6581ef84a586da9a88ffd1c5fd1585dee49e78b73854"
+      ]
+    }
+  ]
+}
