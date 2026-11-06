@@ -42,6 +42,19 @@ export const Expectation = z.object({
   ruleIds: z.array(z.string()).default([]),
 });
 
+// Provenance of a generated (mutated) scenario: facts about how it was made, never about how it behaves.
+export const Provenance = z.object({
+  parentId: z.string().min(1),
+  parentContentHash: z.string().min(1),
+  operator: z.string().min(1),
+  field: z.string().min(1),
+  original: z.unknown(),
+  mutated: z.unknown(),
+  policy: z.string().min(1),
+  generation: z.record(z.string(), z.unknown()),
+});
+export type Provenance = z.infer<typeof Provenance>;
+
 export const Scenario = z.object({
   schemaVersion: z.literal(SCHEMA_VERSION).default(SCHEMA_VERSION),
   id: z.string().regex(/^[a-z0-9][a-z0-9._-]*$/, "use lowercase, digits, . _ -"),
@@ -67,6 +80,7 @@ export const Scenario = z.object({
   stake: StakeState.default({ sender: false, payer: false, factory: false }),
   frames: z.array(Frame).min(1).max(64),
   expect: Expectation.optional(),
+  provenance: Provenance.optional(),
 });
 export type Scenario = z.infer<typeof Scenario>;
 
@@ -75,9 +89,22 @@ export function parseScenario(input: unknown): Scenario {
 }
 
 export function scenarioHash(s: Scenario): string {
-  const { description, title, tags, ...semantic } = s;
+  const { description, title, tags, provenance, ...semantic } = s;
   void description;
   void title;
   void tags;
+  void provenance;
   return hashCanonical(semantic);
+}
+
+// Hash of exactly what is compiled and sent: ignores id, titles, tags, expectation and provenance.
+export function scenarioContentHash(s: Scenario): string {
+  return hashCanonical({
+    sender: s.sender,
+    nonce: s.nonce,
+    fees: s.fees,
+    signature: s.signature,
+    stake: s.stake,
+    frames: s.frames,
+  });
 }
