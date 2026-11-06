@@ -1,0 +1,50 @@
+schemaVersion: 1
+id: invalid-verify-after-prefix.atomic-flag.2f2dddc7
+title: VERIFY frame in the execution body [atomic-flag]
+description: A VERIFY frame may not follow the validation prefix.
+tags:
+  - invalid
+  - structure
+  - mutant
+  - op:atomic-flag
+exercises:
+  - PREFIX-050
+seed: 0
+sender: generated
+nonce:
+  keys:
+    - "0"
+  seq: "0"
+signature: valid
+stake:
+  sender: false
+  payer: false
+  factory: false
+frames:
+  - role: self_verify
+    mode: VERIFY
+    target: sender
+    limits:
+      execution: 30000
+    value: "0"
+    data: 0x
+    atomicBatch: true
+  - role: execution
+    mode: VERIFY
+    target: "0x8943545177806ED17B9F23F0a21ee5948eCaa776"
+    limits:
+      execution: 5000
+    value: "0"
+    data: 0x
+    atomicBatch: false
+provenance:
+  parentId: invalid-verify-after-prefix
+  parentContentHash: ee4b73c94312679a921b90565379a42853ff3016ed0f1fa3fc2f1bdeeca09e13
+  operator: atomic-flag
+  field: frames[0].atomicBatch
+  original: false
+  mutated: true
+  policy: erc-8421-static:erc-8421@74a868cd
+  generation:
+    tool: adversyn-mutate
+    version: 1

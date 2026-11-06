@@ -1,0 +1,51 @@
+schemaVersion: 1
+id: valid-self-verify.role.1141f38b
+title: Single self_verify frame (baseline) [role]
+description: The simplest valid prefix, an EOA that verifies and pays for itself.
+tags:
+  - baseline
+  - valid
+  - mutant
+  - op:role
+exercises:
+  - PREFIX-010
+seed: 0
+sender: generated
+nonce:
+  keys:
+    - "0"
+  seq: "0"
+signature: valid
+stake:
+  sender: false
+  payer: false
+  factory: false
+frames:
+  - role: only_verify
+    mode: VERIFY
+    target: sender
+    limits:
+      execution: 30000
+    value: "0"
+    data: 0x
+    atomicBatch: false
+  - role: execution
+    mode: SENDER
+    target: "0x8943545177806ED17B9F23F0a21ee5948eCaa776"
+    limits:
+      execution: 50000
+      state: 200000
+    value: "1000000000"
+    data: 0x
+    atomicBatch: false
+provenance:
+  parentId: valid-self-verify
+  parentContentHash: f9571b4a20dc9e170623d3ed049c887b4ab1ba7cabcefb5a9cd834f34ebced95
+  operator: role
+  field: frames[0].role
+  original: self_verify
+  mutated: only_verify
+  policy: erc-8421-static:erc-8421@74a868cd
+  generation:
+    tool: adversyn-mutate
+    version: 1

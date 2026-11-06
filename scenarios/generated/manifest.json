@@ -1,0 +1,1075 @@
+{
+  "manifestVersion": 1,
+  "notice": "Predictions come from the offline policy. None of these scenarios has been sent to a node, and no scenario here is a finding or a confirmed vulnerability.",
+  "context": {
+    "policy": "erc-8421-static:erc-8421@74a868cd",
+    "nowSec": 1800000000,
+    "sigVerifyCostObserved": 2800,
+    "operators": [
+      "gas-boundary",
+      "frame-order",
+      "frame-remove",
+      "frame-duplicate",
+      "role",
+      "atomic-flag"
+    ],
+    "max": 24
+  },
+  "seeds": [
+    "valid-self-verify",
+    "invalid-verify-after-prefix",
+    "boundary-budget-97200"
+  ],
+  "counts": {
+    "generated": 24,
+    "skipped": 17,
+    "truncated": 3
+  },
+  "cases": [
+    {
+      "id": "valid-self-verify.gas-boundary.59f2ee6c",
+      "file": "scenarios/valid-self-verify.gas-boundary.59f2ee6c.yaml",
+      "contentHash": "59f2ee6c923b72d7644ee02c704c060cc31776fb3bb438999ee16a6778a1ac2e",
+      "provenance": {
+        "parentId": "valid-self-verify",
+        "parentContentHash": "f9571b4a20dc9e170623d3ed049c887b4ab1ba7cabcefb5a9cd834f34ebced95",
+        "operator": "gas-boundary",
+        "field": "frames[0].limits.execution",
+        "original": 30000,
+        "mutated": 97200,
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "generation": {
+          "tool": "adversyn-mutate",
+          "version": 1
+        }
+      },
+      "prediction": {
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "verdict": "accept",
+        "violated": [],
+        "unevaluated": [
+          "SIGNATURE-010",
+          "PREFIX-060",
+          "PREFIX-100",
+          "PREFIX-110",
+          "OPCODES-*",
+          "CREATION-010",
+          "CALLING-*",
+          "STORAGE-*",
+          "SOLVENCY-*",
+          "REPUTATION-*",
+          "LIFECYCLE-*",
+          "LOCAL-*"
+        ]
+      }
+    },
+    {
+      "id": "valid-self-verify.gas-boundary.9a97a593",
+      "file": "scenarios/valid-self-verify.gas-boundary.9a97a593.yaml",
+      "contentHash": "9a97a593fa7f1d677e6f2b4a29c1245c04dc88a0894355c0243ecadc85376dd1",
+      "provenance": {
+        "parentId": "valid-self-verify",
+        "parentContentHash": "f9571b4a20dc9e170623d3ed049c887b4ab1ba7cabcefb5a9cd834f34ebced95",
+        "operator": "gas-boundary",
+        "field": "frames[0].limits.execution",
+        "original": 30000,
+        "mutated": 97201,
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "generation": {
+          "tool": "adversyn-mutate",
+          "version": 1
+        }
+      },
+      "prediction": {
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "verdict": "reject",
+        "violated": [
+          "BUDGET-010"
+        ],
+        "unevaluated": [
+          "SIGNATURE-010",
+          "PREFIX-060",
+          "PREFIX-100",
+          "PREFIX-110",
+          "OPCODES-*",
+          "CREATION-010",
+          "CALLING-*",
+          "STORAGE-*",
+          "SOLVENCY-*",
+          "REPUTATION-*",
+          "LIFECYCLE-*",
+          "LOCAL-*"
+        ]
+      }
+    },
+    {
+      "id": "valid-self-verify.frame-order.c302115e",
+      "file": "scenarios/valid-self-verify.frame-order.c302115e.yaml",
+      "contentHash": "c302115e2ffb4f30f7aa2dbb7af17986b09a09b94035c91d7133d7d29de2c5bf",
+      "provenance": {
+        "parentId": "valid-self-verify",
+        "parentContentHash": "f9571b4a20dc9e170623d3ed049c887b4ab1ba7cabcefb5a9cd834f34ebced95",
+        "operator": "frame-order",
+        "field": "frames[0..1].order",
+        "original": [
+          "self_verify/VERIFY",
+          "execution/SENDER"
+        ],
+        "mutated": [
+          "execution/SENDER",
+          "self_verify/VERIFY"
+        ],
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "generation": {
+          "tool": "adversyn-mutate",
+          "version": 1
+        }
+      },
+      "prediction": {
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "verdict": "reject",
+        "violated": [
+          "PREFIX-010"
+        ],
+        "unevaluated": [
+          "SIGNATURE-010",
+          "PREFIX-060",
+          "PREFIX-100",
+          "PREFIX-110",
+          "OPCODES-*",
+          "CREATION-010",
+          "CALLING-*",
+          "STORAGE-*",
+          "SOLVENCY-*",
+          "REPUTATION-*",
+          "LIFECYCLE-*",
+          "LOCAL-*"
+        ]
+      }
+    },
+    {
+      "id": "valid-self-verify.frame-remove.e651c17e",
+      "file": "scenarios/valid-self-verify.frame-remove.e651c17e.yaml",
+      "contentHash": "e651c17ef6d016bc84e542e03ca0b0cc7e5666f8e91c697188ac5d47e26191cb",
+      "provenance": {
+        "parentId": "valid-self-verify",
+        "parentContentHash": "f9571b4a20dc9e170623d3ed049c887b4ab1ba7cabcefb5a9cd834f34ebced95",
+        "operator": "frame-remove",
+        "field": "frames[0]",
+        "original": "self_verify/VERIFY",
+        "mutated": null,
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "generation": {
+          "tool": "adversyn-mutate",
+          "version": 1
+        }
+      },
+      "prediction": {
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "verdict": "reject",
+        "violated": [
+          "PREFIX-010"
+        ],
+        "unevaluated": [
+          "SIGNATURE-010",
+          "PREFIX-060",
+          "PREFIX-100",
+          "PREFIX-110",
+          "OPCODES-*",
+          "CREATION-010",
+          "CALLING-*",
+          "STORAGE-*",
+          "SOLVENCY-*",
+          "REPUTATION-*",
+          "LIFECYCLE-*",
+          "LOCAL-*"
+        ]
+      }
+    },
+    {
+      "id": "valid-self-verify.frame-remove.75d12ab0",
+      "file": "scenarios/valid-self-verify.frame-remove.75d12ab0.yaml",
+      "contentHash": "75d12ab011eeb48d1e0b3f373db91d4055c1fa72c8c441687cd88be6642c7d4f",
+      "provenance": {
+        "parentId": "valid-self-verify",
+        "parentContentHash": "f9571b4a20dc9e170623d3ed049c887b4ab1ba7cabcefb5a9cd834f34ebced95",
+        "operator": "frame-remove",
+        "field": "frames[1]",
+        "original": "execution/SENDER",
+        "mutated": null,
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "generation": {
+          "tool": "adversyn-mutate",
+          "version": 1
+        }
+      },
+      "prediction": {
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "verdict": "accept",
+        "violated": [],
+        "unevaluated": [
+          "SIGNATURE-010",
+          "PREFIX-060",
+          "PREFIX-100",
+          "PREFIX-110",
+          "OPCODES-*",
+          "CREATION-010",
+          "CALLING-*",
+          "STORAGE-*",
+          "SOLVENCY-*",
+          "REPUTATION-*",
+          "LIFECYCLE-*",
+          "LOCAL-*"
+        ]
+      }
+    },
+    {
+      "id": "valid-self-verify.frame-duplicate.4e374f1d",
+      "file": "scenarios/valid-self-verify.frame-duplicate.4e374f1d.yaml",
+      "contentHash": "4e374f1d8c70dbd64e7474b5562b4550cf9ffd854ac031308d20141f0b2548eb",
+      "provenance": {
+        "parentId": "valid-self-verify",
+        "parentContentHash": "f9571b4a20dc9e170623d3ed049c887b4ab1ba7cabcefb5a9cd834f34ebced95",
+        "operator": "frame-duplicate",
+        "field": "frames[1]",
+        "original": null,
+        "mutated": "self_verify/VERIFY",
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "generation": {
+          "tool": "adversyn-mutate",
+          "version": 1
+        }
+      },
+      "prediction": {
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "verdict": "reject",
+        "violated": [
+          "PREFIX-050"
+        ],
+        "unevaluated": [
+          "SIGNATURE-010",
+          "PREFIX-060",
+          "PREFIX-100",
+          "PREFIX-110",
+          "OPCODES-*",
+          "CREATION-010",
+          "CALLING-*",
+          "STORAGE-*",
+          "SOLVENCY-*",
+          "REPUTATION-*",
+          "LIFECYCLE-*",
+          "LOCAL-*"
+        ]
+      }
+    },
+    {
+      "id": "valid-self-verify.frame-duplicate.e3d351f0",
+      "file": "scenarios/valid-self-verify.frame-duplicate.e3d351f0.yaml",
+      "contentHash": "e3d351f0292c0ca577f33964cf71eeb61f5b5aef368a2627726ccc5b65ad3fe8",
+      "provenance": {
+        "parentId": "valid-self-verify",
+        "parentContentHash": "f9571b4a20dc9e170623d3ed049c887b4ab1ba7cabcefb5a9cd834f34ebced95",
+        "operator": "frame-duplicate",
+        "field": "frames[2]",
+        "original": null,
+        "mutated": "execution/SENDER",
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "generation": {
+          "tool": "adversyn-mutate",
+          "version": 1
+        }
+      },
+      "prediction": {
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "verdict": "accept",
+        "violated": [],
+        "unevaluated": [
+          "SIGNATURE-010",
+          "PREFIX-060",
+          "PREFIX-100",
+          "PREFIX-110",
+          "OPCODES-*",
+          "CREATION-010",
+          "CALLING-*",
+          "STORAGE-*",
+          "SOLVENCY-*",
+          "REPUTATION-*",
+          "LIFECYCLE-*",
+          "LOCAL-*"
+        ]
+      }
+    },
+    {
+      "id": "valid-self-verify.role.1141f38b",
+      "file": "scenarios/valid-self-verify.role.1141f38b.yaml",
+      "contentHash": "1141f38b4e317306845fa8d95fdb4d46a071e62d69313619dd961557f1a8bbd9",
+      "provenance": {
+        "parentId": "valid-self-verify",
+        "parentContentHash": "f9571b4a20dc9e170623d3ed049c887b4ab1ba7cabcefb5a9cd834f34ebced95",
+        "operator": "role",
+        "field": "frames[0].role",
+        "original": "self_verify",
+        "mutated": "only_verify",
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "generation": {
+          "tool": "adversyn-mutate",
+          "version": 1
+        }
+      },
+      "prediction": {
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "verdict": "reject",
+        "violated": [
+          "PREFIX-010"
+        ],
+        "unevaluated": [
+          "SIGNATURE-010",
+          "PREFIX-060",
+          "PREFIX-100",
+          "PREFIX-110",
+          "OPCODES-*",
+          "CREATION-010",
+          "CALLING-*",
+          "STORAGE-*",
+          "SOLVENCY-*",
+          "REPUTATION-*",
+          "LIFECYCLE-*",
+          "LOCAL-*"
+        ]
+      }
+    },
+    {
+      "id": "valid-self-verify.role.eb1aca2f",
+      "file": "scenarios/valid-self-verify.role.eb1aca2f.yaml",
+      "contentHash": "eb1aca2ffab968f25d52e2c39333268839144494070f7effa0ce27c2cc1e82f1",
+      "provenance": {
+        "parentId": "valid-self-verify",
+        "parentContentHash": "f9571b4a20dc9e170623d3ed049c887b4ab1ba7cabcefb5a9cd834f34ebced95",
+        "operator": "role",
+        "field": "frames[0].role",
+        "original": "self_verify",
+        "mutated": "pay",
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "generation": {
+          "tool": "adversyn-mutate",
+          "version": 1
+        }
+      },
+      "prediction": {
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "verdict": "reject",
+        "violated": [
+          "PREFIX-010"
+        ],
+        "unevaluated": [
+          "SIGNATURE-010",
+          "PREFIX-060",
+          "PREFIX-100",
+          "PREFIX-110",
+          "OPCODES-*",
+          "CREATION-010",
+          "CALLING-*",
+          "STORAGE-*",
+          "SOLVENCY-*",
+          "REPUTATION-*",
+          "LIFECYCLE-*",
+          "LOCAL-*"
+        ]
+      }
+    },
+    {
+      "id": "valid-self-verify.atomic-flag.9172d677",
+      "file": "scenarios/valid-self-verify.atomic-flag.9172d677.yaml",
+      "contentHash": "9172d67742e346858572f81b39d1d1fc6f2b033ef2561d2b019e83fb2660ff00",
+      "provenance": {
+        "parentId": "valid-self-verify",
+        "parentContentHash": "f9571b4a20dc9e170623d3ed049c887b4ab1ba7cabcefb5a9cd834f34ebced95",
+        "operator": "atomic-flag",
+        "field": "frames[0].atomicBatch",
+        "original": false,
+        "mutated": true,
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "generation": {
+          "tool": "adversyn-mutate",
+          "version": 1
+        }
+      },
+      "prediction": {
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "verdict": "reject",
+        "violated": [
+          "PREFIX-040"
+        ],
+        "unevaluated": [
+          "SIGNATURE-010",
+          "PREFIX-060",
+          "PREFIX-100",
+          "PREFIX-110",
+          "OPCODES-*",
+          "CREATION-010",
+          "CALLING-*",
+          "STORAGE-*",
+          "SOLVENCY-*",
+          "REPUTATION-*",
+          "LIFECYCLE-*",
+          "LOCAL-*"
+        ]
+      }
+    },
+    {
+      "id": "valid-self-verify.atomic-flag.8f8946c4",
+      "file": "scenarios/valid-self-verify.atomic-flag.8f8946c4.yaml",
+      "contentHash": "8f8946c485fa16452d97751c98cbfb9505e55591094e4f2b2f0b52af73880201",
+      "provenance": {
+        "parentId": "valid-self-verify",
+        "parentContentHash": "f9571b4a20dc9e170623d3ed049c887b4ab1ba7cabcefb5a9cd834f34ebced95",
+        "operator": "atomic-flag",
+        "field": "frames[1].atomicBatch",
+        "original": false,
+        "mutated": true,
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "generation": {
+          "tool": "adversyn-mutate",
+          "version": 1
+        }
+      },
+      "prediction": {
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "verdict": "accept",
+        "violated": [],
+        "unevaluated": [
+          "SIGNATURE-010",
+          "PREFIX-060",
+          "PREFIX-100",
+          "PREFIX-110",
+          "OPCODES-*",
+          "CREATION-010",
+          "CALLING-*",
+          "STORAGE-*",
+          "SOLVENCY-*",
+          "REPUTATION-*",
+          "LIFECYCLE-*",
+          "LOCAL-*"
+        ]
+      }
+    },
+    {
+      "id": "invalid-verify-after-prefix.gas-boundary.795f46b8",
+      "file": "scenarios/invalid-verify-after-prefix.gas-boundary.795f46b8.yaml",
+      "contentHash": "795f46b8f78c51fc46138b6109dc9b7376048b93773c37e3b25c729f5907fb00",
+      "provenance": {
+        "parentId": "invalid-verify-after-prefix",
+        "parentContentHash": "ee4b73c94312679a921b90565379a42853ff3016ed0f1fa3fc2f1bdeeca09e13",
+        "operator": "gas-boundary",
+        "field": "frames[0].limits.execution",
+        "original": 30000,
+        "mutated": 97200,
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "generation": {
+          "tool": "adversyn-mutate",
+          "version": 1
+        }
+      },
+      "prediction": {
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "verdict": "reject",
+        "violated": [
+          "PREFIX-050"
+        ],
+        "unevaluated": [
+          "SIGNATURE-010",
+          "PREFIX-060",
+          "PREFIX-100",
+          "PREFIX-110",
+          "OPCODES-*",
+          "CREATION-010",
+          "CALLING-*",
+          "STORAGE-*",
+          "SOLVENCY-*",
+          "REPUTATION-*",
+          "LIFECYCLE-*",
+          "LOCAL-*"
+        ]
+      }
+    },
+    {
+      "id": "invalid-verify-after-prefix.gas-boundary.2daf417d",
+      "file": "scenarios/invalid-verify-after-prefix.gas-boundary.2daf417d.yaml",
+      "contentHash": "2daf417d7efb09595f16404bae2bdb04eeafcae6a871339a20cd71307e83a325",
+      "provenance": {
+        "parentId": "invalid-verify-after-prefix",
+        "parentContentHash": "ee4b73c94312679a921b90565379a42853ff3016ed0f1fa3fc2f1bdeeca09e13",
+        "operator": "gas-boundary",
+        "field": "frames[0].limits.execution",
+        "original": 30000,
+        "mutated": 97201,
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "generation": {
+          "tool": "adversyn-mutate",
+          "version": 1
+        }
+      },
+      "prediction": {
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "verdict": "reject",
+        "violated": [
+          "PREFIX-050",
+          "BUDGET-010"
+        ],
+        "unevaluated": [
+          "SIGNATURE-010",
+          "PREFIX-060",
+          "PREFIX-100",
+          "PREFIX-110",
+          "OPCODES-*",
+          "CREATION-010",
+          "CALLING-*",
+          "STORAGE-*",
+          "SOLVENCY-*",
+          "REPUTATION-*",
+          "LIFECYCLE-*",
+          "LOCAL-*"
+        ]
+      }
+    },
+    {
+      "id": "invalid-verify-after-prefix.frame-order.60a0779d",
+      "file": "scenarios/invalid-verify-after-prefix.frame-order.60a0779d.yaml",
+      "contentHash": "60a0779dd83a773194c9302f73500d9df19de9b55eeba67bc33f9f3610461a1c",
+      "provenance": {
+        "parentId": "invalid-verify-after-prefix",
+        "parentContentHash": "ee4b73c94312679a921b90565379a42853ff3016ed0f1fa3fc2f1bdeeca09e13",
+        "operator": "frame-order",
+        "field": "frames[0..1].order",
+        "original": [
+          "self_verify/VERIFY",
+          "execution/VERIFY"
+        ],
+        "mutated": [
+          "execution/VERIFY",
+          "self_verify/VERIFY"
+        ],
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "generation": {
+          "tool": "adversyn-mutate",
+          "version": 1
+        }
+      },
+      "prediction": {
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "verdict": "reject",
+        "violated": [
+          "PREFIX-010"
+        ],
+        "unevaluated": [
+          "SIGNATURE-010",
+          "PREFIX-060",
+          "PREFIX-100",
+          "PREFIX-110",
+          "OPCODES-*",
+          "CREATION-010",
+          "CALLING-*",
+          "STORAGE-*",
+          "SOLVENCY-*",
+          "REPUTATION-*",
+          "LIFECYCLE-*",
+          "LOCAL-*"
+        ]
+      }
+    },
+    {
+      "id": "invalid-verify-after-prefix.frame-remove.36024140",
+      "file": "scenarios/invalid-verify-after-prefix.frame-remove.36024140.yaml",
+      "contentHash": "3602414076851bec3f5ec02354850d29b96fa5ca9d9495049b234350133a73b2",
+      "provenance": {
+        "parentId": "invalid-verify-after-prefix",
+        "parentContentHash": "ee4b73c94312679a921b90565379a42853ff3016ed0f1fa3fc2f1bdeeca09e13",
+        "operator": "frame-remove",
+        "field": "frames[0]",
+        "original": "self_verify/VERIFY",
+        "mutated": null,
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "generation": {
+          "tool": "adversyn-mutate",
+          "version": 1
+        }
+      },
+      "prediction": {
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "verdict": "reject",
+        "violated": [
+          "PREFIX-010"
+        ],
+        "unevaluated": [
+          "SIGNATURE-010",
+          "PREFIX-060",
+          "PREFIX-100",
+          "PREFIX-110",
+          "OPCODES-*",
+          "CREATION-010",
+          "CALLING-*",
+          "STORAGE-*",
+          "SOLVENCY-*",
+          "REPUTATION-*",
+          "LIFECYCLE-*",
+          "LOCAL-*"
+        ]
+      }
+    },
+    {
+      "id": "invalid-verify-after-prefix.frame-duplicate.2a689333",
+      "file": "scenarios/invalid-verify-after-prefix.frame-duplicate.2a689333.yaml",
+      "contentHash": "2a68933382694ae6faa2e86cc69e9cb0058bebe6677eaf4f8b2037cc2f8c777b",
+      "provenance": {
+        "parentId": "invalid-verify-after-prefix",
+        "parentContentHash": "ee4b73c94312679a921b90565379a42853ff3016ed0f1fa3fc2f1bdeeca09e13",
+        "operator": "frame-duplicate",
+        "field": "frames[1]",
+        "original": null,
+        "mutated": "self_verify/VERIFY",
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "generation": {
+          "tool": "adversyn-mutate",
+          "version": 1
+        }
+      },
+      "prediction": {
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "verdict": "reject",
+        "violated": [
+          "PREFIX-050"
+        ],
+        "unevaluated": [
+          "SIGNATURE-010",
+          "PREFIX-060",
+          "PREFIX-100",
+          "PREFIX-110",
+          "OPCODES-*",
+          "CREATION-010",
+          "CALLING-*",
+          "STORAGE-*",
+          "SOLVENCY-*",
+          "REPUTATION-*",
+          "LIFECYCLE-*",
+          "LOCAL-*"
+        ]
+      }
+    },
+    {
+      "id": "invalid-verify-after-prefix.frame-duplicate.c6a7bbd7",
+      "file": "scenarios/invalid-verify-after-prefix.frame-duplicate.c6a7bbd7.yaml",
+      "contentHash": "c6a7bbd76c051bc080701601a50f3612712994d06457549d9a3a054f80c892eb",
+      "provenance": {
+        "parentId": "invalid-verify-after-prefix",
+        "parentContentHash": "ee4b73c94312679a921b90565379a42853ff3016ed0f1fa3fc2f1bdeeca09e13",
+        "operator": "frame-duplicate",
+        "field": "frames[2]",
+        "original": null,
+        "mutated": "execution/VERIFY",
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "generation": {
+          "tool": "adversyn-mutate",
+          "version": 1
+        }
+      },
+      "prediction": {
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "verdict": "reject",
+        "violated": [
+          "PREFIX-050"
+        ],
+        "unevaluated": [
+          "SIGNATURE-010",
+          "PREFIX-060",
+          "PREFIX-100",
+          "PREFIX-110",
+          "OPCODES-*",
+          "CREATION-010",
+          "CALLING-*",
+          "STORAGE-*",
+          "SOLVENCY-*",
+          "REPUTATION-*",
+          "LIFECYCLE-*",
+          "LOCAL-*"
+        ]
+      }
+    },
+    {
+      "id": "invalid-verify-after-prefix.role.fcd4b712",
+      "file": "scenarios/invalid-verify-after-prefix.role.fcd4b712.yaml",
+      "contentHash": "fcd4b712895551d0ae16a57d9d12f63db62817415aea3f684448b701151e29f3",
+      "provenance": {
+        "parentId": "invalid-verify-after-prefix",
+        "parentContentHash": "ee4b73c94312679a921b90565379a42853ff3016ed0f1fa3fc2f1bdeeca09e13",
+        "operator": "role",
+        "field": "frames[0].role",
+        "original": "self_verify",
+        "mutated": "only_verify",
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "generation": {
+          "tool": "adversyn-mutate",
+          "version": 1
+        }
+      },
+      "prediction": {
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "verdict": "reject",
+        "violated": [
+          "PREFIX-010"
+        ],
+        "unevaluated": [
+          "SIGNATURE-010",
+          "PREFIX-060",
+          "PREFIX-100",
+          "PREFIX-110",
+          "OPCODES-*",
+          "CREATION-010",
+          "CALLING-*",
+          "STORAGE-*",
+          "SOLVENCY-*",
+          "REPUTATION-*",
+          "LIFECYCLE-*",
+          "LOCAL-*"
+        ]
+      }
+    },
+    {
+      "id": "invalid-verify-after-prefix.role.356ef385",
+      "file": "scenarios/invalid-verify-after-prefix.role.356ef385.yaml",
+      "contentHash": "356ef3853452709daebda7a7721e718df15891edf6b8b577e185abf6b9f3f7ba",
+      "provenance": {
+        "parentId": "invalid-verify-after-prefix",
+        "parentContentHash": "ee4b73c94312679a921b90565379a42853ff3016ed0f1fa3fc2f1bdeeca09e13",
+        "operator": "role",
+        "field": "frames[0].role",
+        "original": "self_verify",
+        "mutated": "pay",
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "generation": {
+          "tool": "adversyn-mutate",
+          "version": 1
+        }
+      },
+      "prediction": {
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "verdict": "reject",
+        "violated": [
+          "PREFIX-010",
+          "PREFIX-050"
+        ],
+        "unevaluated": [
+          "SIGNATURE-010",
+          "PREFIX-060",
+          "PREFIX-100",
+          "PREFIX-110",
+          "OPCODES-*",
+          "CREATION-010",
+          "CALLING-*",
+          "STORAGE-*",
+          "SOLVENCY-*",
+          "REPUTATION-*",
+          "LIFECYCLE-*",
+          "LOCAL-*"
+        ]
+      }
+    },
+    {
+      "id": "invalid-verify-after-prefix.role.8784d1ad",
+      "file": "scenarios/invalid-verify-after-prefix.role.8784d1ad.yaml",
+      "contentHash": "8784d1adb9f61e5f6c7b655e3bcd9d59fba7c7248511903d3891d982a6a050f0",
+      "provenance": {
+        "parentId": "invalid-verify-after-prefix",
+        "parentContentHash": "ee4b73c94312679a921b90565379a42853ff3016ed0f1fa3fc2f1bdeeca09e13",
+        "operator": "role",
+        "field": "frames[1].role",
+        "original": "execution",
+        "mutated": "only_verify",
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "generation": {
+          "tool": "adversyn-mutate",
+          "version": 1
+        }
+      },
+      "prediction": {
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "verdict": "reject",
+        "violated": [
+          "PREFIX-050"
+        ],
+        "unevaluated": [
+          "SIGNATURE-010",
+          "PREFIX-060",
+          "PREFIX-100",
+          "PREFIX-110",
+          "OPCODES-*",
+          "CREATION-010",
+          "CALLING-*",
+          "STORAGE-*",
+          "SOLVENCY-*",
+          "REPUTATION-*",
+          "LIFECYCLE-*",
+          "LOCAL-*"
+        ]
+      }
+    },
+    {
+      "id": "invalid-verify-after-prefix.role.c55c5027",
+      "file": "scenarios/invalid-verify-after-prefix.role.c55c5027.yaml",
+      "contentHash": "c55c502763a2e6485f92f65d15684d2e3bb07bccf3f5132c494abcaba11f3917",
+      "provenance": {
+        "parentId": "invalid-verify-after-prefix",
+        "parentContentHash": "ee4b73c94312679a921b90565379a42853ff3016ed0f1fa3fc2f1bdeeca09e13",
+        "operator": "role",
+        "field": "frames[1].role",
+        "original": "execution",
+        "mutated": "pay",
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "generation": {
+          "tool": "adversyn-mutate",
+          "version": 1
+        }
+      },
+      "prediction": {
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "verdict": "reject",
+        "violated": [
+          "PREFIX-050"
+        ],
+        "unevaluated": [
+          "SIGNATURE-010",
+          "PREFIX-060",
+          "PREFIX-100",
+          "PREFIX-110",
+          "OPCODES-*",
+          "CREATION-010",
+          "CALLING-*",
+          "STORAGE-*",
+          "SOLVENCY-*",
+          "REPUTATION-*",
+          "LIFECYCLE-*",
+          "LOCAL-*"
+        ]
+      }
+    },
+    {
+      "id": "invalid-verify-after-prefix.atomic-flag.2f2dddc7",
+      "file": "scenarios/invalid-verify-after-prefix.atomic-flag.2f2dddc7.yaml",
+      "contentHash": "2f2dddc7960559284cf6beb0e7b78ea3e99e293ce78c4ced90c2daed74042adf",
+      "provenance": {
+        "parentId": "invalid-verify-after-prefix",
+        "parentContentHash": "ee4b73c94312679a921b90565379a42853ff3016ed0f1fa3fc2f1bdeeca09e13",
+        "operator": "atomic-flag",
+        "field": "frames[0].atomicBatch",
+        "original": false,
+        "mutated": true,
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "generation": {
+          "tool": "adversyn-mutate",
+          "version": 1
+        }
+      },
+      "prediction": {
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "verdict": "reject",
+        "violated": [
+          "PREFIX-040",
+          "PREFIX-050"
+        ],
+        "unevaluated": [
+          "SIGNATURE-010",
+          "PREFIX-060",
+          "PREFIX-100",
+          "PREFIX-110",
+          "OPCODES-*",
+          "CREATION-010",
+          "CALLING-*",
+          "STORAGE-*",
+          "SOLVENCY-*",
+          "REPUTATION-*",
+          "LIFECYCLE-*",
+          "LOCAL-*"
+        ]
+      }
+    },
+    {
+      "id": "invalid-verify-after-prefix.atomic-flag.845e4118",
+      "file": "scenarios/invalid-verify-after-prefix.atomic-flag.845e4118.yaml",
+      "contentHash": "845e4118aa45d0600bc7b2cb5181b50da43dc6dde2058a4b0594c5f8236aaa1b",
+      "provenance": {
+        "parentId": "invalid-verify-after-prefix",
+        "parentContentHash": "ee4b73c94312679a921b90565379a42853ff3016ed0f1fa3fc2f1bdeeca09e13",
+        "operator": "atomic-flag",
+        "field": "frames[1].atomicBatch",
+        "original": false,
+        "mutated": true,
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "generation": {
+          "tool": "adversyn-mutate",
+          "version": 1
+        }
+      },
+      "prediction": {
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "verdict": "reject",
+        "violated": [
+          "PREFIX-050"
+        ],
+        "unevaluated": [
+          "SIGNATURE-010",
+          "PREFIX-060",
+          "PREFIX-100",
+          "PREFIX-110",
+          "OPCODES-*",
+          "CREATION-010",
+          "CALLING-*",
+          "STORAGE-*",
+          "SOLVENCY-*",
+          "REPUTATION-*",
+          "LIFECYCLE-*",
+          "LOCAL-*"
+        ]
+      }
+    },
+    {
+      "id": "boundary-budget-97200.frame-duplicate.3fea0c0d",
+      "file": "scenarios/boundary-budget-97200.frame-duplicate.3fea0c0d.yaml",
+      "contentHash": "3fea0c0d5a8547228e286499d6f1ccc454fa95db383dc7054d97e688636d2ed2",
+      "provenance": {
+        "parentId": "boundary-budget-97200",
+        "parentContentHash": "d5cb274988d7f47b1724623daff317ae0b2e9af91b22371d7895db2808ea5915",
+        "operator": "frame-duplicate",
+        "field": "frames[1]",
+        "original": null,
+        "mutated": "self_verify/VERIFY",
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "generation": {
+          "tool": "adversyn-mutate",
+          "version": 1
+        }
+      },
+      "prediction": {
+        "policy": "erc-8421-static:erc-8421@74a868cd",
+        "verdict": "reject",
+        "violated": [
+          "PREFIX-050"
+        ],
+        "unevaluated": [
+          "SIGNATURE-010",
+          "PREFIX-060",
+          "PREFIX-100",
+          "PREFIX-110",
+          "OPCODES-*",
+          "CREATION-010",
+          "CALLING-*",
+          "STORAGE-*",
+          "SOLVENCY-*",
+          "REPUTATION-*",
+          "LIFECYCLE-*",
+          "LOCAL-*"
+        ]
+      }
+    }
+  ],
+  "skipped": [
+    {
+      "operator": "gas-boundary",
+      "field": "frames[1].limits.execution",
+      "reason": "role execution is not counted toward verification gas by the policy",
+      "seed": "valid-self-verify"
+    },
+    {
+      "operator": "role",
+      "field": "frames[0].role",
+      "reason": "target role expiry_verify cannot be compiled yet",
+      "seed": "valid-self-verify"
+    },
+    {
+      "operator": "role",
+      "field": "frames[0].role",
+      "reason": "label-only for VERIFY frames (deploy, pre_verify, execution): the compiled transaction is identical, so a node cannot tell these apart and the policy's prediction would not be testable",
+      "seed": "valid-self-verify"
+    },
+    {
+      "operator": "role",
+      "field": "frames[1].role",
+      "reason": "target role expiry_verify cannot be compiled yet",
+      "seed": "valid-self-verify"
+    },
+    {
+      "operator": "role",
+      "field": "frames[1].role",
+      "reason": "label-only for SENDER frames (self_verify, only_verify, pay, deploy, pre_verify): the compiled transaction is identical, so a node cannot tell these apart and the policy's prediction would not be testable",
+      "seed": "valid-self-verify"
+    },
+    {
+      "operator": "gas-boundary",
+      "field": "frames[1].limits.execution",
+      "reason": "role execution is not counted toward verification gas by the policy",
+      "seed": "invalid-verify-after-prefix"
+    },
+    {
+      "operator": "frame-remove",
+      "field": "frames[1]",
+      "reason": "duplicate content already generated or present",
+      "seed": "invalid-verify-after-prefix"
+    },
+    {
+      "operator": "role",
+      "field": "frames[0].role",
+      "reason": "target role expiry_verify cannot be compiled yet",
+      "seed": "invalid-verify-after-prefix"
+    },
+    {
+      "operator": "role",
+      "field": "frames[0].role",
+      "reason": "label-only for VERIFY frames (deploy, pre_verify, execution): the compiled transaction is identical, so a node cannot tell these apart and the policy's prediction would not be testable",
+      "seed": "invalid-verify-after-prefix"
+    },
+    {
+      "operator": "role",
+      "field": "frames[1].role",
+      "reason": "target role expiry_verify cannot be compiled yet",
+      "seed": "invalid-verify-after-prefix"
+    },
+    {
+      "operator": "role",
+      "field": "frames[1].role",
+      "reason": "label-only for VERIFY frames (self_verify, deploy, pre_verify): the compiled transaction is identical, so a node cannot tell these apart and the policy's prediction would not be testable",
+      "seed": "invalid-verify-after-prefix"
+    },
+    {
+      "operator": "gas-boundary",
+      "field": "frames[0].limits.execution",
+      "reason": "no-op: identical to the parent",
+      "seed": "boundary-budget-97200"
+    },
+    {
+      "operator": "gas-boundary",
+      "field": "frames[0].limits.execution",
+      "reason": "duplicate content already generated or present",
+      "seed": "boundary-budget-97200"
+    },
+    {
+      "operator": "frame-order",
+      "reason": "needs at least two frames to reorder",
+      "seed": "boundary-budget-97200"
+    },
+    {
+      "operator": "frame-remove",
+      "reason": "removing the only frame would leave an empty transaction",
+      "seed": "boundary-budget-97200"
+    },
+    {
+      "operator": "role",
+      "field": "frames[0].role",
+      "reason": "target role expiry_verify cannot be compiled yet",
+      "seed": "boundary-budget-97200"
+    },
+    {
+      "operator": "role",
+      "field": "frames[0].role",
+      "reason": "label-only for VERIFY frames (deploy, pre_verify, execution): the compiled transaction is identical, so a node cannot tell these apart and the policy's prediction would not be testable",
+      "seed": "boundary-budget-97200"
+    }
+  ]
+}

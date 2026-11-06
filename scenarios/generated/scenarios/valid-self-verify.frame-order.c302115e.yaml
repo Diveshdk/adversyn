@@ -1,0 +1,55 @@
+schemaVersion: 1
+id: valid-self-verify.frame-order.c302115e
+title: Single self_verify frame (baseline) [frame-order]
+description: The simplest valid prefix, an EOA that verifies and pays for itself.
+tags:
+  - baseline
+  - valid
+  - mutant
+  - op:frame-order
+exercises:
+  - PREFIX-010
+seed: 0
+sender: generated
+nonce:
+  keys:
+    - "0"
+  seq: "0"
+signature: valid
+stake:
+  sender: false
+  payer: false
+  factory: false
+frames:
+  - role: execution
+    mode: SENDER
+    target: "0x8943545177806ED17B9F23F0a21ee5948eCaa776"
+    limits:
+      execution: 50000
+      state: 200000
+    value: "1000000000"
+    data: 0x
+    atomicBatch: false
+  - role: self_verify
+    mode: VERIFY
+    target: sender
+    limits:
+      execution: 30000
+    value: "0"
+    data: 0x
+    atomicBatch: false
+provenance:
+  parentId: valid-self-verify
+  parentContentHash: f9571b4a20dc9e170623d3ed049c887b4ab1ba7cabcefb5a9cd834f34ebced95
+  operator: frame-order
+  field: frames[0..1].order
+  original:
+    - self_verify/VERIFY
+    - execution/SENDER
+  mutated:
+    - execution/SENDER
+    - self_verify/VERIFY
+  policy: erc-8421-static:erc-8421@74a868cd
+  generation:
+    tool: adversyn-mutate
+    version: 1

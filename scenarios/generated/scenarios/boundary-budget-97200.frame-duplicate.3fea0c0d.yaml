@@ -1,0 +1,51 @@
+schemaVersion: 1
+id: boundary-budget-97200.frame-duplicate.3fea0c0d
+title: 97,200 verification gas for an unstaked sender (at the limit) [frame-duplicate]
+description: 97,200 plus the observed 2,800 signature cost equals exactly 100,000.
+tags:
+  - boundary
+  - budget
+  - valid
+  - mutant
+  - op:frame-duplicate
+exercises:
+  - BUDGET-010
+seed: 0
+sender: generated
+nonce:
+  keys:
+    - "0"
+  seq: "0"
+signature: valid
+stake:
+  sender: false
+  payer: false
+  factory: false
+frames:
+  - role: self_verify
+    mode: VERIFY
+    target: sender
+    limits:
+      execution: 97200
+    value: "0"
+    data: 0x
+    atomicBatch: false
+  - role: self_verify
+    mode: VERIFY
+    target: sender
+    limits:
+      execution: 97200
+    value: "0"
+    data: 0x
+    atomicBatch: false
+provenance:
+  parentId: boundary-budget-97200
+  parentContentHash: d5cb274988d7f47b1724623daff317ae0b2e9af91b22371d7895db2808ea5915
+  operator: frame-duplicate
+  field: frames[1]
+  original: null
+  mutated: self_verify/VERIFY
+  policy: erc-8421-static:erc-8421@74a868cd
+  generation:
+    tool: adversyn-mutate
+    version: 1
