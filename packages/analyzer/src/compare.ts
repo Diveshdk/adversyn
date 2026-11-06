@@ -63,6 +63,18 @@ export function compare(scenario: Scenario, prediction: Prediction, obs: Observa
 
   if (prediction.verdict === "accept") {
     if (o.verdict === "accept") {
+      const unobservable = (scenario.exercises ?? []).filter((id) =>
+        prediction.unevaluated.some((u) => u === id || u.startsWith(id + " ")),
+      );
+      if (unobservable.length > 0) {
+        return {
+          ...base,
+          result: "inconclusive",
+          notes: [
+            "the scenario exercises " + unobservable.join(", ") + ", which the policy does not evaluate; the node's acceptance cannot be judged against the policy. Treat it as a lead and read the scenario description.",
+          ],
+        };
+      }
       const notes =
         o.stage === "solvency"
           ? ["node stopped at the solvency check, so static rules passed; later rules (opcodes, storage, ...) were not exercised"]

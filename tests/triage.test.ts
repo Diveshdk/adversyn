@@ -85,3 +85,12 @@ describe("PREFIX-040 wording from the real devnet", () => {
     expect(r.observed.ruleIds).toEqual(["PREFIX-040"]);
   });
 });
+
+describe("scenarios that exercise a rule the policy does not evaluate", () => {
+  it("is inconclusive when the node admits it, never a pass", () => {
+    const s = get("lead-deploy-not-deploying-sender");
+    const r = compare(s, predict(s), makeObservation(s, { outcome: "admitted" }));
+    expect(r.result).toBe("inconclusive");
+    expect(r.finding).toBeUndefined();
+  });
+});
