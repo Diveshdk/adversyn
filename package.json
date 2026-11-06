@@ -11,6 +11,7 @@
     "@adversyn/analyzer": "workspace:*",
     "@adversyn/core": "workspace:*",
     "@adversyn/executor": "workspace:*",
+    "@adversyn/mutation": "workspace:*",
     "@adversyn/policy": "workspace:*",
     "@adversyn/protocol": "workspace:*",
     "@adversyn/reporter": "workspace:*",
