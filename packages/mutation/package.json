@@ -7,6 +7,7 @@
   "dependencies": {
     "@adversyn/core": "workspace:*",
     "@adversyn/policy": "workspace:*",
-    "@adversyn/protocol": "workspace:*"
+    "@adversyn/protocol": "workspace:*",
+    "viem": "^2.57.16"
   }
 }

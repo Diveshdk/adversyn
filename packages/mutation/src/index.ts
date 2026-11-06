@@ -6,3 +6,5 @@ export * from "./frame-order.js";
 export * from "./frame-edit.js";
 export * from "./role.js";
 export * from "./atomic-flag.js";
+export * from "./registry.js";
+export * from "./engine.js";
