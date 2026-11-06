@@ -8,3 +8,4 @@ export * from "./role.js";
 export * from "./atomic-flag.js";
 export * from "./registry.js";
 export * from "./engine.js";
+export * from "./output.js";

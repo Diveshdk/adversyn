@@ -8,6 +8,7 @@
     "@adversyn/core": "workspace:*",
     "@adversyn/policy": "workspace:*",
     "@adversyn/protocol": "workspace:*",
-    "viem": "^2.57.16"
+    "viem": "^2.57.16",
+    "yaml": "^2.9.1"
   }
 }

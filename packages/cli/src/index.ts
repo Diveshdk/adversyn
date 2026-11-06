@@ -6,6 +6,7 @@ import { predict } from "@adversyn/policy";
 import { compare } from "@adversyn/analyzer";
 import { runScenario, SidecarTarget } from "@adversyn/executor";
 import { summarize, writeReport } from "@adversyn/reporter";
+import { generateMutants, writeOutput } from "@adversyn/mutation";
 import type { Hex } from "viem";
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
@@ -76,6 +77,72 @@ program
     });
     console.log("wrote:\n  " + files.join("\n  "));
     if (o["failOnFinding"] && s.finding > 0) process.exitCode = 1;
+  });
+
+program
+  .command("mutate")
+  .description("Generate deterministic mutated scenarios from seed scenarios (offline; nothing is sent to a node)")
+  .argument("[dir]", "seed scenario directory", "scenarios/examples")
+  .option("--only <ids>", "comma-separated seed scenario ids")
+  .option("--operators <ids>", "comma-separated operator ids (default: all)")
+  .option("--max <n>", "maximum number of generated scenarios")
+  .option("--now <unixSec>", "time for time-dependent policy rules (default: current time, recorded in the manifest)")
+  .option("--out <dir>", "output directory", "out/mutants")
+  .option("--overwrite", "overwrite files from a previous run in --out")
+  .action(async (dir: string, o: Record<string, string | boolean | undefined>) => {
+    const fail = (msg: string) => {
+      console.error("error: " + msg);
+      process.exitCode = 1;
+    };
+    const all = loadScenarioDir(path.resolve(dir)).map((l) => l.scenario);
+    const only = typeof o.only === "string" ? o.only.split(",").map((x) => x.trim()).filter(Boolean) : undefined;
+    if (only) {
+      const missing = only.filter((id) => !all.some((s) => s.id === id));
+      if (missing.length) return fail("unknown seed scenario id(s): " + missing.join(", "));
+    }
+    const seeds = only ? all.filter((s) => only.includes(s.id)) : all;
+
+    const max = typeof o.max === "string" ? Number(o.max) : undefined;
+    if (max !== undefined && (!Number.isInteger(max) || max < 0)) return fail("--max must be a non-negative integer");
+    const nowSec = typeof o.now === "string" ? Number(o.now) : Math.floor(Date.now() / 1000);
+    if (!Number.isInteger(nowSec) || nowSec < 0) return fail("--now must be a unix time in seconds");
+    const operators =
+      typeof o.operators === "string" ? o.operators.split(",").map((x) => x.trim()).filter(Boolean) : undefined;
+
+    let result;
+    try {
+      result = await generateMutants(seeds, { nowSec, max, operators, existing: all });
+    } catch (e) {
+      return fail(e instanceof Error ? e.message : String(e));
+    }
+
+    const outDir = path.resolve(typeof o.out === "string" ? o.out : "out/mutants");
+    let written;
+    try {
+      written = writeOutput(outDir, result, seeds.map((s) => s.id), { overwrite: o.overwrite === true });
+    } catch (e) {
+      return fail(e instanceof Error ? e.message : String(e));
+    }
+
+    const perOp = new Map<string, number>();
+    for (const c of result.cases) {
+      const op = c.scenario.provenance?.operator ?? "?";
+      perOp.set(op, (perOp.get(op) ?? 0) + 1);
+    }
+    console.log(
+      `${seeds.length} seed scenario(s), operators: ${result.context.operators.join(", ")}, now=${nowSec}`,
+    );
+    console.log(`generated ${result.cases.length}, skipped ${result.skipped.length}, truncated ${result.truncated}`);
+    for (const [op, n] of perOp) console.log(`  ${op}: ${n}`);
+    const shown = result.skipped.slice(0, 15);
+    if (shown.length) console.log("skipped (first " + shown.length + "):");
+    for (const s of shown) console.log(`  ${s.seed} / ${s.operator} / ${s.field ?? "-"}: ${s.reason}`);
+    if (result.skipped.length > shown.length) {
+      console.log(`  ... ${result.skipped.length - shown.length} more in the manifest`);
+    }
+    console.log("These are offline policy predictions, not observations. Nothing was sent to a node.");
+    console.log("wrote: " + written.manifestFile);
+    console.log("run them with: pnpm adversyn run " + path.join(outDir, "scenarios"));
   });
 
 program.parseAsync();

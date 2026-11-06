@@ -12,6 +12,7 @@
     "@adversyn/protocol": "workspace:*",
     "@adversyn/reporter": "workspace:*",
     "@adversyn/scenarios": "workspace:*",
-    "commander": "^15.0.0"
+    "commander": "^15.0.0",
+    "@adversyn/mutation": "workspace:*"
   }
 }
