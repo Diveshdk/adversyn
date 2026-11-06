@@ -1,5 +1,7 @@
 # Adversyn conformance report
 
+> Historical sample: run on 2026-11-06 at 03:58 UTC, before the devnet maintainer removed the verification gas limits that day. The budget scenarios no longer reproduce on that devnet. `invalid-stray-default-frame` was later renamed `lead-deploy-not-deploying-sender`.
+
 - Target: https://altmempoolgateway.forshtat.com/rpc
 - Policy: erc-8421-static:erc-8421@74a868cd
 - Generated: 2026-11-06T03:58:03.500Z

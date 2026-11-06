@@ -104,7 +104,7 @@ Useful options:
 
 ```bash
 pnpm adversyn run --only invalid-atomic-in-prefix,invalid-verify-after-prefix
-pnpm adversyn run --rpc http://localhost:14337/rpc/ --chain-id 9     # a local sidecar
+pnpm adversyn run --rpc http://localhost:14337/rpc/ --chain-id 9     # a local sidecar (example from the workshop config, not tested here)
 pnpm adversyn run --out out/my-run --fail-on-finding                 # exit 1 on any finding
 ```
 

@@ -102,7 +102,7 @@ Only scenarios that pass all three count toward `--max`. Every skip is reported 
 
 ### gas-boundary
 
-The boundary is found by binary search against the policy, not hardcoded. It therefore follows the policy's constants: the per-entity cap (100,000 unstaked, 1,000,000 staked), whether the entity is staked in the seed, and the measured signature cost, which applies to the sender only. For an unstaked sender the boundary is currently 97,200 (accepted) and 97,201 (rejected), but that follows from the measured constant, so it moves if the constant changes.
+The boundary is found by binary search against the policy, not hardcoded. It therefore follows the policy's constants: the per-entity cap (100,000 unstaked, 1,000,000 staked), whether the entity is staked in the seed, and the measured signature cost, which applies to the sender only. For an unstaked sender the policy's boundary is currently 97,200 (accepted) and 97,201 (rejected), but that follows from the measured constant, so it moves if the constant changes. The public devnet stopped enforcing this limit on 2026-11-06 (see `docs/evidence/budget-drift/`), so these mutants no longer produce rejections there.
 
 Skipped with a reason: frames whose role the policy does not count; frames where the scenario is already over budget because of another entity (lowering this frame cannot fix it); frames where the policy reports no violation up to the search ceiling (10,000,000).
 
@@ -124,7 +124,7 @@ Role changes that leave the compiled bytes identical, such as `self_verify` to `
 
 ### atomic-flag
 
-Toggles the flag on each frame. The flag is a real wire change. The policy only has `PREFIX-040` (no flag on validation prefix frames). Toggling the flag on a body frame is therefore predicted as accept, with the other rules listed as unevaluated. If a node rejects such a variant, that is an unattributed rejection to investigate, not a confirmed violation.
+Toggles the flag on each frame. The flag is a real wire change. The policy only has `PREFIX-040` (no flag on validation prefix frames). Toggling the flag on a body frame is therefore predicted as accept, with the other rules listed as unevaluated. If a node rejects such a variant, that is an unattributed rejection to investigate, not a confirmed violation. Example (2026-11-06): the node rejected the flag on the last frame ("Frame 1: atomic batch flag on last frame"). That constraint comes from EIP-8141, which the policy does not encode, so it was a gap in the policy's predictions, not a node bug (`docs/evidence/mutants/`).
 
 ## Limitations
 
