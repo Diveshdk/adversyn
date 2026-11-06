@@ -116,6 +116,9 @@ importers:
       '@adversyn/policy':
         specifier: workspace:*
         version: link:../policy
+      '@adversyn/protocol':
+        specifier: workspace:*
+        version: link:../protocol
 
   packages/policy:
     dependencies:

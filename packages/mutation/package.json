@@ -6,6 +6,7 @@
   "exports": "./src/index.ts",
   "dependencies": {
     "@adversyn/core": "workspace:*",
-    "@adversyn/policy": "workspace:*"
+    "@adversyn/policy": "workspace:*",
+    "@adversyn/protocol": "workspace:*"
   }
 }

@@ -4,3 +4,4 @@ export * from "./build.js";
 export * from "./gas-boundary.js";
 export * from "./frame-order.js";
 export * from "./frame-edit.js";
+export * from "./role.js";

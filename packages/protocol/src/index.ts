@@ -38,6 +38,15 @@ export interface Compiled {
 
 type Profile = ReturnType<typeof getProfile>;
 
+/** The approve scope a frame is compiled with, or undefined for non-VERIFY frames. The only place a role reaches the wire. */
+export function approveScopeFor(f: Pick<Frame, "role" | "mode">): string | undefined {
+  if (f.mode !== "VERIFY") return undefined;
+  return (f.role && APPROVE_SCOPE[f.role]) ?? "EXECUTION_AND_PAYMENT";
+}
+
+/** Roles the compiler cannot map yet. */
+export const UNCOMPILABLE_ROLES: ReadonlySet<string> = UNSUPPORTED_ROLES;
+
 function buildFrame(profile: Profile, f: Frame, index: number) {
   if (f.role && UNSUPPORTED_ROLES.has(f.role)) {
     throw new UnsupportedScenarioError(`frame ${index}: role ${f.role} needs verifier/factory details not mapped yet`);
@@ -50,7 +59,7 @@ function buildFrame(profile: Profile, f: Frame, index: number) {
     value: value > 0n ? value : undefined,
     data: f.data === "0x" ? undefined : (f.data as Hex),
     flags: f.atomicBatch ? profile.flagBits["ATOMIC_BATCH"] : undefined,
-    scope: f.mode === "VERIFY" ? ((f.role && APPROVE_SCOPE[f.role]) ?? "EXECUTION_AND_PAYMENT") : undefined,
+    scope: approveScopeFor(f),
   };
   return lib.frame(profile, f.mode, opts);
 }
