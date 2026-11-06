@@ -1,0 +1,317 @@
+[
+  {
+    "schemaVersion": 1,
+    "fingerprint": "4b79fc99cb5ad916cf716aaad5b428ffb59012a8a177a2fd9fed8228c9faab05",
+    "class": "conformance",
+    "status": "violation",
+    "severity": "medium",
+    "title": "Node's static checks passed a transaction the policy rejects (BUDGET-010)",
+    "policy": {
+      "id": "erc-8421-static",
+      "pins": [
+        {
+          "spec": "erc-8421",
+          "commit": "74a868cd"
+        }
+      ]
+    },
+    "scenarioId": "probe-budget-1000000",
+    "scenarioHash": "815430978a904e55ff229891ce01635530a06895c33a53e740d09db3e0e4e950",
+    "runId": "run-2026-11-06T15-15-00-596Z",
+    "expected": {
+      "verdict": "reject",
+      "ruleIds": [
+        "BUDGET-010"
+      ]
+    },
+    "observed": {
+      "verdict": "accept",
+      "ruleIds": []
+    },
+    "evidence": {
+      "notes": [
+        "node stopped at solvency; this rule was not enforced before it",
+        "node said: validation frame 0: the payer 0x36600aa118fc029002ecc3eafbf3ade16af4864e has 0 wei, the transaction's maximum cost is 2032702000000000 wei"
+      ],
+      "observation": {
+        "schemaVersion": 1,
+        "runId": "run-2026-11-06T15-15-00-596Z",
+        "scenarioId": "probe-budget-1000000",
+        "scenarioHash": "815430978a904e55ff229891ce01635530a06895c33a53e740d09db3e0e4e950",
+        "target": {
+          "name": "sidecar",
+          "rpcUrl": "https://altmempoolgateway.forshtat.com/rpc",
+          "chainId": 1337
+        },
+        "startedAt": "2026-11-06T15:15:00.620Z",
+        "durationMs": 3554.8831250000003,
+        "submit": {
+          "outcome": "rejected",
+          "rpcMethod": "eth_sendFrameTransaction",
+          "errorCode": -32500,
+          "errorMessage": "validation frame 0: the payer 0x36600aa118fc029002ecc3eafbf3ade16af4864e has 0 wei, the transaction's maximum cost is 2032702000000000 wei",
+          "reasons": [
+            {
+              "text": "validation frame 0: the payer 0x36600aa118fc029002ecc3eafbf3ade16af4864e has 0 wei, the transaction's maximum cost is 2032702000000000 wei",
+              "source": "rpc-error"
+            }
+          ]
+        },
+        "raw": {
+          "request": {
+            "chainId": "0x539",
+            "nonceKeys": [
+              "0x0"
+            ],
+            "nonceSeq": "0x0",
+            "sender": "0x36600aA118fc029002eCc3EAfBf3aDE16AF4864e",
+            "frames": [
+              {
+                "mode": 1,
+                "flags": 3,
+                "target": null,
+                "limits": {
+                  "execution": "0xf4240",
+                  "state": "0x0"
+                },
+                "value": "0x0",
+                "data": "0x"
+              }
+            ],
+            "signatures": [
+              {
+                "scheme": 1,
+                "signer": "0x",
+                "msg": "0x",
+                "signature": "0x016eea151e9ccb293398328ea49e7e70d79dff75aaf0c70898fe8f007499a353770f02855398b5713c2b67c52c75172b42f2861c7f7d38d9e48e44d29e9e724d4e"
+              }
+            ],
+            "fees": {
+              "maxPriorityFeePerGas": "0x77359400",
+              "maxFeePerGas": "0x77359400",
+              "maxFeePerBlobGas": "0x0"
+            },
+            "blobVersionedHashes": [],
+            "recentRootReferences": []
+          },
+          "response": {
+            "ok": false,
+            "code": "RPC_-32500",
+            "message": "validation frame 0: the payer 0x36600aa118fc029002ecc3eafbf3ade16af4864e has 0 wei, the transaction's maximum cost is 2032702000000000 wei"
+          }
+        }
+      }
+    },
+    "detectedAt": "2026-11-06T15:15:04.177Z"
+  },
+  {
+    "schemaVersion": 1,
+    "fingerprint": "ea8af92e65a82b43abd9002f2b362efb2f667d1a3f604eb594d303697fc64552",
+    "class": "conformance",
+    "status": "violation",
+    "severity": "medium",
+    "title": "Node's static checks passed a transaction the policy rejects (BUDGET-010)",
+    "policy": {
+      "id": "erc-8421-static",
+      "pins": [
+        {
+          "spec": "erc-8421",
+          "commit": "74a868cd"
+        }
+      ]
+    },
+    "scenarioId": "probe-budget-10000000",
+    "scenarioHash": "6612d8829bef4b0653aff4b00cf23e8d4ea9b199e7b744c3efb91a0c1820946e",
+    "runId": "run-2026-11-06T15-15-00-596Z",
+    "expected": {
+      "verdict": "reject",
+      "ruleIds": [
+        "BUDGET-010"
+      ]
+    },
+    "observed": {
+      "verdict": "accept",
+      "ruleIds": []
+    },
+    "evidence": {
+      "notes": [
+        "node stopped at solvency; this rule was not enforced before it",
+        "node said: validation frame 0: the payer 0x6f9f3bd9024dd8d9eb935775110ca3a5a14834e5 has 0 wei, the transaction's maximum cost is 20032726000000000 wei"
+      ],
+      "observation": {
+        "schemaVersion": 1,
+        "runId": "run-2026-11-06T15-15-00-596Z",
+        "scenarioId": "probe-budget-10000000",
+        "scenarioHash": "6612d8829bef4b0653aff4b00cf23e8d4ea9b199e7b744c3efb91a0c1820946e",
+        "target": {
+          "name": "sidecar",
+          "rpcUrl": "https://altmempoolgateway.forshtat.com/rpc",
+          "chainId": 1337
+        },
+        "startedAt": "2026-11-06T15:15:04.484Z",
+        "durationMs": 625.3029999999999,
+        "submit": {
+          "outcome": "rejected",
+          "rpcMethod": "eth_sendFrameTransaction",
+          "errorCode": -32500,
+          "errorMessage": "validation frame 0: the payer 0x6f9f3bd9024dd8d9eb935775110ca3a5a14834e5 has 0 wei, the transaction's maximum cost is 20032726000000000 wei",
+          "reasons": [
+            {
+              "text": "validation frame 0: the payer 0x6f9f3bd9024dd8d9eb935775110ca3a5a14834e5 has 0 wei, the transaction's maximum cost is 20032726000000000 wei",
+              "source": "rpc-error"
+            }
+          ]
+        },
+        "raw": {
+          "request": {
+            "chainId": "0x539",
+            "nonceKeys": [
+              "0x0"
+            ],
+            "nonceSeq": "0x0",
+            "sender": "0x6f9f3BD9024DD8d9eB935775110Ca3a5A14834E5",
+            "frames": [
+              {
+                "mode": 1,
+                "flags": 3,
+                "target": null,
+                "limits": {
+                  "execution": "0x989680",
+                  "state": "0x0"
+                },
+                "value": "0x0",
+                "data": "0x"
+              }
+            ],
+            "signatures": [
+              {
+                "scheme": 1,
+                "signer": "0x",
+                "msg": "0x",
+                "signature": "0x01166fb59d4d96a32d0aeb13ce78e7693ddec40d5b3f4102baa267f2f09091bba112dce765844ccc0680b1fe3cd1201722358bb751cb81a835e2bd3a6a0282488c"
+              }
+            ],
+            "fees": {
+              "maxPriorityFeePerGas": "0x77359400",
+              "maxFeePerGas": "0x77359400",
+              "maxFeePerBlobGas": "0x0"
+            },
+            "blobVersionedHashes": [],
+            "recentRootReferences": []
+          },
+          "response": {
+            "ok": false,
+            "code": "RPC_-32500",
+            "message": "validation frame 0: the payer 0x6f9f3bd9024dd8d9eb935775110ca3a5a14834e5 has 0 wei, the transaction's maximum cost is 20032726000000000 wei"
+          }
+        }
+      }
+    },
+    "detectedAt": "2026-11-06T15:15:05.111Z"
+  },
+  {
+    "schemaVersion": 1,
+    "fingerprint": "5335164748ce5ac482c6ff88b28cd31630d9aa4d5fdba7e29e1fdbbd41d5e812",
+    "class": "conformance",
+    "status": "violation",
+    "severity": "medium",
+    "title": "Node's static checks passed a transaction the policy rejects (BUDGET-010)",
+    "policy": {
+      "id": "erc-8421-static",
+      "pins": [
+        {
+          "spec": "erc-8421",
+          "commit": "74a868cd"
+        }
+      ]
+    },
+    "scenarioId": "probe-budget-1000001",
+    "scenarioHash": "090698f35a15c8e116674a2c52f23848dca6a9a5c972e7740f6ab6133e268ee8",
+    "runId": "run-2026-11-06T15-15-00-596Z",
+    "expected": {
+      "verdict": "reject",
+      "ruleIds": [
+        "BUDGET-010"
+      ]
+    },
+    "observed": {
+      "verdict": "accept",
+      "ruleIds": []
+    },
+    "evidence": {
+      "notes": [
+        "node stopped at solvency; this rule was not enforced before it",
+        "node said: validation frame 0: the payer 0x30f26d0265b3729cb42ca6ff76e4980e5badab2f has 0 wei, the transaction's maximum cost is 2032680000000000 wei"
+      ],
+      "observation": {
+        "schemaVersion": 1,
+        "runId": "run-2026-11-06T15-15-00-596Z",
+        "scenarioId": "probe-budget-1000001",
+        "scenarioHash": "090698f35a15c8e116674a2c52f23848dca6a9a5c972e7740f6ab6133e268ee8",
+        "target": {
+          "name": "sidecar",
+          "rpcUrl": "https://altmempoolgateway.forshtat.com/rpc",
+          "chainId": 1337
+        },
+        "startedAt": "2026-11-06T15:15:05.418Z",
+        "durationMs": 1468.9802909999999,
+        "submit": {
+          "outcome": "rejected",
+          "rpcMethod": "eth_sendFrameTransaction",
+          "errorCode": -32500,
+          "errorMessage": "validation frame 0: the payer 0x30f26d0265b3729cb42ca6ff76e4980e5badab2f has 0 wei, the transaction's maximum cost is 2032680000000000 wei",
+          "reasons": [
+            {
+              "text": "validation frame 0: the payer 0x30f26d0265b3729cb42ca6ff76e4980e5badab2f has 0 wei, the transaction's maximum cost is 2032680000000000 wei",
+              "source": "rpc-error"
+            }
+          ]
+        },
+        "raw": {
+          "request": {
+            "chainId": "0x539",
+            "nonceKeys": [
+              "0x0"
+            ],
+            "nonceSeq": "0x0",
+            "sender": "0x30f26D0265b3729cB42cA6FF76E4980e5BadaB2f",
+            "frames": [
+              {
+                "mode": 1,
+                "flags": 3,
+                "target": null,
+                "limits": {
+                  "execution": "0xf4241",
+                  "state": "0x0"
+                },
+                "value": "0x0",
+                "data": "0x"
+              }
+            ],
+            "signatures": [
+              {
+                "scheme": 1,
+                "signer": "0x",
+                "msg": "0x",
+                "signature": "0x00589a0de21e475424bf10e9c00c9cbbc09c806c558a9c0051f967ab363cd397c86a71440f2a9102678a977da72d4aa06ee0f2c072a1ebbeb995cff0c563f3d60b"
+              }
+            ],
+            "fees": {
+              "maxPriorityFeePerGas": "0x77359400",
+              "maxFeePerGas": "0x77359400",
+              "maxFeePerBlobGas": "0x0"
+            },
+            "blobVersionedHashes": [],
+            "recentRootReferences": []
+          },
+          "response": {
+            "ok": false,
+            "code": "RPC_-32500",
+            "message": "validation frame 0: the payer 0x30f26d0265b3729cb42ca6ff76e4980e5badab2f has 0 wei, the transaction's maximum cost is 2032680000000000 wei"
+          }
+        }
+      }
+    },
+    "detectedAt": "2026-11-06T15:15:06.888Z"
+  }
+]

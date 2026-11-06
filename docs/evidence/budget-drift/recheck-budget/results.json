@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "policy": "erc-8421-static:erc-8421@74a868cd",
+    "target": "https://altmempoolgateway.forshtat.com/rpc",
+    "generatedAt": "2026-11-06T15:10:26.791Z"
+  },
+  "entries": [
+    {
+      "scenarioId": "invalid-budget-unstaked",
+      "title": "100,001 verification gas for an unstaked sender",
+      "predicted": {
+        "verdict": "reject",
+        "ruleIds": [
+          "BUDGET-010"
+        ]
+      },
+      "observed": {
+        "verdict": "accept",
+        "ruleIds": [],
+        "stage": "solvency"
+      },
+      "result": "finding",
+      "notes": [
+        "Node's static checks passed a transaction the policy rejects (BUDGET-010)"
+      ],
+      "finding": {
+        "schemaVersion": 1,
+        "fingerprint": "b416f0359a46ddde05161a713fccb285058a047cd716e5fe3f5191f2c2d42e1e",
+        "class": "conformance",
+        "status": "violation",
+        "severity": "medium",
+        "title": "Node's static checks passed a transaction the policy rejects (BUDGET-010)",
+        "policy": {
+          "id": "erc-8421-static",
+          "pins": [
+            {
+              "spec": "erc-8421",
+              "commit": "74a868cd"
+            }
+          ]
+        },
+        "scenarioId": "invalid-budget-unstaked",
+        "scenarioHash": "e61d0919e9c611cf14c86363df3cc68f861cbde1118600c6f79a635f5f0aec87",
+        "runId": "run-2026-11-06T15-10-24-078Z",
+        "expected": {
+          "verdict": "reject",
+          "ruleIds": [
+            "BUDGET-010"
+          ]
+        },
+        "observed": {
+          "verdict": "accept",
+          "ruleIds": []
+        },
+        "evidence": {
+          "notes": [
+            "node stopped at solvency; this rule was not enforced before it",
+            "node said: validation frame 0: the payer 0x47ba395bdd67e53a15cad26f492312bb66e34936 has 0 wei, the transaction's maximum cost is 232728000000000 wei"
+          ],
+          "observation": {
+            "schemaVersion": 1,
+            "runId": "run-2026-11-06T15-10-24-078Z",
+            "scenarioId": "invalid-budget-unstaked",
+            "scenarioHash": "e61d0919e9c611cf14c86363df3cc68f861cbde1118600c6f79a635f5f0aec87",
+            "target": {
+              "name": "sidecar",
+              "rpcUrl": "https://altmempoolgateway.forshtat.com/rpc",
+              "chainId": 1337
+            },
+            "startedAt": "2026-11-06T15:10:24.085Z",
+            "durationMs": 1303.23425,
+            "submit": {
+              "outcome": "rejected",
+              "rpcMethod": "eth_sendFrameTransaction",
+              "errorCode": -32500,
+              "errorMessage": "validation frame 0: the payer 0x47ba395bdd67e53a15cad26f492312bb66e34936 has 0 wei, the transaction's maximum cost is 232728000000000 wei",
+              "reasons": [
+                {
+                  "text": "validation frame 0: the payer 0x47ba395bdd67e53a15cad26f492312bb66e34936 has 0 wei, the transaction's maximum cost is 232728000000000 wei",
+                  "source": "rpc-error"
+                }
+              ]
+            },
+            "raw": {
+              "request": {
+                "chainId": "0x539",
+                "nonceKeys": [
+                  "0x0"
+                ],
+                "nonceSeq": "0x0",
+                "sender": "0x47bA395Bdd67e53a15Cad26F492312BB66E34936",
+                "frames": [
+                  {
+                    "mode": 1,
+                    "flags": 3,
+                    "target": null,
+                    "limits": {
+                      "execution": "0x186a1",
+                      "state": "0x0"
+                    },
+                    "value": "0x0",
+                    "data": "0x"
+                  }
+                ],
+                "signatures": [
+                  {
+                    "scheme": 1,
+                    "signer": "0x",
+                    "msg": "0x",
+                    "signature": "0x0165519082db43ce0b7225cbdd2d710e9e4540c137a6b3e20dbed9a050a01e32ce078e23d57564c377f0182d32fc28281e0d07e9e923628944179b02eefb9c3328"
+                  }
+                ],
+                "fees": {
+                  "maxPriorityFeePerGas": "0x77359400",
+                  "maxFeePerGas": "0x77359400",
+                  "maxFeePerBlobGas": "0x0"
+                },
+                "blobVersionedHashes": [],
+                "recentRootReferences": []
+              },
+              "response": {
+                "ok": false,
+                "code": "RPC_-32500",
+                "message": "validation frame 0: the payer 0x47ba395bdd67e53a15cad26f492312bb66e34936 has 0 wei, the transaction's maximum cost is 232728000000000 wei"
+              }
+            }
+          }
+        },
+        "detectedAt": "2026-11-06T15:10:25.390Z"
+      }
+    },
+    {
+      "scenarioId": "boundary-budget-97200",
+      "title": "97,200 verification gas for an unstaked sender (at the limit)",
+      "predicted": {
+        "verdict": "accept",
+        "ruleIds": []
+      },
+      "observed": {
+        "verdict": "accept",
+        "ruleIds": [],
+        "stage": "solvency"
+      },
+      "result": "pass",
+      "notes": [
+        "node stopped at the solvency check, so static rules passed; later rules (opcodes, storage, ...) were not exercised"
+      ]
+    }
+  ]
+}

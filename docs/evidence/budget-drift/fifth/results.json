@@ -1,0 +1,265 @@
+{
+  "meta": {
+    "policy": "erc-8421-static:erc-8421@74a868cd",
+    "target": "https://altmempoolgateway.forshtat.com/rpc",
+    "generatedAt": "2026-11-06T03:58:03.500Z"
+  },
+  "entries": [
+    {
+      "scenarioId": "valid-self-verify",
+      "title": "Single self_verify frame (baseline)",
+      "predicted": {
+        "verdict": "accept",
+        "ruleIds": []
+      },
+      "observed": {
+        "verdict": "accept",
+        "ruleIds": [],
+        "stage": "solvency"
+      },
+      "result": "pass",
+      "notes": [
+        "node stopped at the solvency check, so static rules passed; later rules (opcodes, storage, ...) were not exercised"
+      ]
+    },
+    {
+      "scenarioId": "valid-only-verify-pay",
+      "title": "only_verify then pay (sponsored shape)",
+      "result": "inconclusive",
+      "predicted": {
+        "verdict": "accept",
+        "ruleIds": []
+      },
+      "observed": {
+        "verdict": "unknown",
+        "ruleIds": [],
+        "stage": "skipped"
+      },
+      "notes": [
+        "skipped: needs a deployed contract (paymaster, wallet, ...) that Adversyn does not deploy yet"
+      ]
+    },
+    {
+      "scenarioId": "valid-pre-verify",
+      "title": "pre_verify frame before the approving frame",
+      "result": "inconclusive",
+      "predicted": {
+        "verdict": "accept",
+        "ruleIds": []
+      },
+      "observed": {
+        "verdict": "unknown",
+        "ruleIds": [],
+        "stage": "skipped"
+      },
+      "notes": [
+        "skipped: needs a deployed contract (paymaster, wallet, ...) that Adversyn does not deploy yet"
+      ]
+    },
+    {
+      "scenarioId": "invalid-lone-only-verify",
+      "title": "only_verify with no pay frame",
+      "predicted": {
+        "verdict": "reject",
+        "ruleIds": [
+          "PREFIX-010"
+        ]
+      },
+      "observed": {
+        "verdict": "reject",
+        "ruleIds": [
+          "PREFIX-010"
+        ],
+        "stage": "static"
+      },
+      "result": "pass",
+      "notes": []
+    },
+    {
+      "scenarioId": "invalid-deploy-not-first",
+      "title": "deploy frame placed after only_verify",
+      "predicted": {
+        "verdict": "reject",
+        "ruleIds": [
+          "PREFIX-010",
+          "PREFIX-020"
+        ]
+      },
+      "observed": {
+        "verdict": "reject",
+        "ruleIds": [
+          "PREFIX-010"
+        ],
+        "stage": "static"
+      },
+      "result": "pass",
+      "notes": []
+    },
+    {
+      "scenarioId": "invalid-atomic-in-prefix",
+      "title": "atomic batch flag on a prefix frame",
+      "predicted": {
+        "verdict": "reject",
+        "ruleIds": [
+          "PREFIX-040"
+        ]
+      },
+      "observed": {
+        "verdict": "reject",
+        "ruleIds": [
+          "PREFIX-040"
+        ],
+        "stage": "static"
+      },
+      "result": "pass",
+      "notes": []
+    },
+    {
+      "scenarioId": "invalid-verify-after-prefix",
+      "title": "VERIFY frame in the execution body",
+      "predicted": {
+        "verdict": "reject",
+        "ruleIds": [
+          "PREFIX-050"
+        ]
+      },
+      "observed": {
+        "verdict": "reject",
+        "ruleIds": [
+          "PREFIX-050"
+        ],
+        "stage": "static"
+      },
+      "result": "pass",
+      "notes": []
+    },
+    {
+      "scenarioId": "invalid-expired-expiry",
+      "title": "expiry_verify deadline in the past",
+      "result": "inconclusive",
+      "predicted": {
+        "verdict": "reject",
+        "ruleIds": [
+          "PREFIX-080"
+        ]
+      },
+      "observed": {
+        "verdict": "unknown",
+        "ruleIds": [],
+        "stage": "skipped"
+      },
+      "notes": [
+        "skipped: frame 0: role expiry_verify needs verifier/factory details not mapped yet"
+      ]
+    },
+    {
+      "scenarioId": "valid-future-expiry",
+      "title": "expiry_verify deadline far in the future",
+      "result": "inconclusive",
+      "predicted": {
+        "verdict": "accept",
+        "ruleIds": []
+      },
+      "observed": {
+        "verdict": "unknown",
+        "ruleIds": [],
+        "stage": "skipped"
+      },
+      "notes": [
+        "skipped: frame 0: role expiry_verify needs verifier/factory details not mapped yet"
+      ]
+    },
+    {
+      "scenarioId": "invalid-stray-default-frame",
+      "title": "DEFAULT-mode frame that is neither deploy nor pre_verify",
+      "predicted": {
+        "verdict": "reject",
+        "ruleIds": [
+          "PREFIX-010",
+          "PREFIX-120"
+        ]
+      },
+      "observed": {
+        "verdict": "accept",
+        "ruleIds": [],
+        "stage": "solvency"
+      },
+      "result": "inconclusive",
+      "notes": [
+        "node stopped at the solvency check; PREFIX-010, PREFIX-120 depends on simulation or frame classification and may not have been evaluated yet. Re-run with a funded key (ADVERSYN_PRIVATE_KEY)."
+      ]
+    },
+    {
+      "scenarioId": "invalid-budget-unstaked",
+      "title": "100,001 verification gas for an unstaked sender",
+      "predicted": {
+        "verdict": "reject",
+        "ruleIds": [
+          "BUDGET-010"
+        ]
+      },
+      "observed": {
+        "verdict": "reject",
+        "ruleIds": [
+          "BUDGET-010"
+        ],
+        "stage": "static"
+      },
+      "result": "pass",
+      "notes": []
+    },
+    {
+      "scenarioId": "valid-budget-staked",
+      "title": "500,000 verification gas for a staked sender",
+      "result": "inconclusive",
+      "predicted": {
+        "verdict": "accept",
+        "ruleIds": []
+      },
+      "observed": {
+        "verdict": "unknown",
+        "ruleIds": [],
+        "stage": "skipped"
+      },
+      "notes": [
+        "skipped: needs staked entities; staking is not arranged by Adversyn"
+      ]
+    },
+    {
+      "scenarioId": "boundary-budget-97200",
+      "title": "97,200 verification gas for an unstaked sender (at the limit)",
+      "predicted": {
+        "verdict": "accept",
+        "ruleIds": []
+      },
+      "observed": {
+        "verdict": "accept",
+        "ruleIds": [],
+        "stage": "solvency"
+      },
+      "result": "pass",
+      "notes": [
+        "node stopped at the solvency check, so static rules passed; later rules (opcodes, storage, ...) were not exercised"
+      ]
+    },
+    {
+      "scenarioId": "boundary-budget-97201",
+      "title": "97,201 verification gas for an unstaked sender (one over)",
+      "predicted": {
+        "verdict": "reject",
+        "ruleIds": [
+          "BUDGET-010"
+        ]
+      },
+      "observed": {
+        "verdict": "reject",
+        "ruleIds": [
+          "BUDGET-010"
+        ],
+        "stage": "static"
+      },
+      "result": "pass",
+      "notes": []
+    }
+  ]
+}

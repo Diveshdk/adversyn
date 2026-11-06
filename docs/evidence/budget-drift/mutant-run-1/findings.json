@@ -1,0 +1,108 @@
+[
+  {
+    "schemaVersion": 1,
+    "fingerprint": "9c1167775732e58b5c3aea3d0ea6ae94ebf169a9ce984ecd908ad7db64e24376",
+    "class": "conformance",
+    "status": "violation",
+    "severity": "high",
+    "title": "Node admitted a transaction the policy rejects (BUDGET-010)",
+    "policy": {
+      "id": "erc-8421-static",
+      "pins": [
+        {
+          "spec": "erc-8421",
+          "commit": "74a868cd"
+        }
+      ]
+    },
+    "scenarioId": "valid-self-verify.gas-boundary.9a97a593",
+    "scenarioHash": "7092dac3461c51cf950437f3ffe6ca910d18f4f6e91c6167ee90d359915db7de",
+    "runId": "run-2026-11-06T15-03-48-574Z",
+    "expected": {
+      "verdict": "reject",
+      "ruleIds": [
+        "BUDGET-010"
+      ]
+    },
+    "observed": {
+      "verdict": "accept",
+      "ruleIds": []
+    },
+    "evidence": {
+      "notes": [],
+      "observation": {
+        "schemaVersion": 1,
+        "runId": "run-2026-11-06T15-03-48-574Z",
+        "scenarioId": "valid-self-verify.gas-boundary.9a97a593",
+        "scenarioHash": "7092dac3461c51cf950437f3ffe6ca910d18f4f6e91c6167ee90d359915db7de",
+        "target": {
+          "name": "sidecar",
+          "rpcUrl": "https://altmempoolgateway.forshtat.com/rpc",
+          "chainId": 1337
+        },
+        "startedAt": "2026-11-06T15:03:49.910Z",
+        "durationMs": 1245.11925,
+        "submit": {
+          "outcome": "admitted",
+          "txHash": "0x39d39f8c4ee70ae174aa47630f7726c4c67a9540ac25df97416fea29408b8a9e",
+          "rpcMethod": "eth_sendFrameTransaction",
+          "reasons": []
+        },
+        "raw": {
+          "request": {
+            "chainId": "0x539",
+            "nonceKeys": [
+              "0x0"
+            ],
+            "nonceSeq": "0x2",
+            "sender": "0xFe9aBE424277eebc63Cd12D9892026f907dD374A",
+            "frames": [
+              {
+                "mode": 1,
+                "flags": 3,
+                "target": null,
+                "limits": {
+                  "execution": "0x17bb1",
+                  "state": "0x0"
+                },
+                "value": "0x0",
+                "data": "0x"
+              },
+              {
+                "mode": 2,
+                "flags": 0,
+                "target": "0x8943545177806ED17B9F23F0a21ee5948eCaa776",
+                "limits": {
+                  "execution": "0xc350",
+                  "state": "0x30d40"
+                },
+                "value": "0x3b9aca00",
+                "data": "0x"
+              }
+            ],
+            "signatures": [
+              {
+                "scheme": 1,
+                "signer": "0x",
+                "msg": "0x",
+                "signature": "0x0066a4fd7376824c6647cd613f6cfcaf7ca35ffba5fb0aeb4ba83fa38fa8efc10038f4545eba33f9a81a82bfdb36d0cb5af0b3be48bbf8d5b97cb9d4025dc8a89b"
+              }
+            ],
+            "fees": {
+              "maxPriorityFeePerGas": "0x77359400",
+              "maxFeePerGas": "0x77359400",
+              "maxFeePerBlobGas": "0x0"
+            },
+            "blobVersionedHashes": [],
+            "recentRootReferences": []
+          },
+          "response": {
+            "ok": true,
+            "result": "0x39d39f8c4ee70ae174aa47630f7726c4c67a9540ac25df97416fea29408b8a9e"
+          }
+        }
+      }
+    },
+    "detectedAt": "2026-11-06T15:03:51.159Z"
+  }
+]
