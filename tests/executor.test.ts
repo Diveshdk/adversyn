@@ -31,7 +31,7 @@ describe("protocol.compileScenario", () => {
   it("refuses scenarios it cannot map yet", async () => {
     const key = generatePrivateKey();
     await expect(
-      compileScenario(get("invalid-atomic-in-prefix"), {
+      compileScenario(get("invalid-expired-expiry"), {
         chainId: 1337,
         sender: privateKeyToAccount(key).address,
         nonce: 0n,
@@ -70,7 +70,7 @@ describe("executor.runScenario", () => {
 
   it("skips scenarios that need stake and ones it cannot compile", async () => {
     const a = await runScenario(fake({ ok: true, result: "0x" }), get("valid-budget-staked"), { runId: "t" });
-    const b = await runScenario(fake({ ok: true, result: "0x" }), get("invalid-atomic-in-prefix"), { runId: "t" });
+    const b = await runScenario(fake({ ok: true, result: "0x" }), get("invalid-expired-expiry"), { runId: "t" });
     expect(a.kind).toBe("skipped");
     expect(b.kind).toBe("skipped");
   });

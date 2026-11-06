@@ -10,6 +10,9 @@ import {
 import type { Prediction } from "@adversyn/policy";
 import { classifyObservation } from "./classify.js";
 
+// Rules the node demonstrably checks before the solvency stage (observed on the public devnet).
+const STRUCTURE_STAGE_RULES = new Set(["PREFIX-010", "PREFIX-040", "PREFIX-050", "BUDGET-010"]);
+
 type Sev = Finding["severity"];
 type Status = Finding["status"];
 
@@ -77,6 +80,16 @@ export function compare(scenario: Scenario, prediction: Prediction, obs: Observa
 
   if (o.verdict === "accept") {
     const admitted = o.stage === "admitted";
+    const structural = prediction.violated.every((id) => STRUCTURE_STAGE_RULES.has(id));
+    if (!admitted && !structural) {
+      return {
+        ...base,
+        result: "inconclusive",
+        notes: [
+          "node stopped at the solvency check; " + prediction.violated.join(", ") + " depends on simulation or frame classification and may not have been evaluated yet. Re-run with a funded key (ADVERSYN_PRIVATE_KEY).",
+        ],
+      };
+    }
     const f = finding("conformance", "violation", admitted ? "high" : "medium",
       (admitted ? "Node admitted" : "Node's static checks passed") +
         " a transaction the policy rejects (" + prediction.violated.join(", ") + ")",

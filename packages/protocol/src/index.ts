@@ -20,7 +20,7 @@ const APPROVE_SCOPE: Record<string, string> = {
   pay: "PAYMENT",
 };
 
-const UNSUPPORTED_ROLES = new Set(["deploy", "pre_verify", "expiry_verify"]);
+const UNSUPPORTED_ROLES = new Set(["expiry_verify"]);
 
 export interface CompileOptions {
   chainId: number;
@@ -39,12 +39,6 @@ export interface Compiled {
 type Profile = ReturnType<typeof getProfile>;
 
 function buildFrame(profile: Profile, f: Frame, index: number) {
-  if (f.atomicBatch) {
-    throw new UnsupportedScenarioError(`frame ${index}: atomicBatch is not mapped to hegota-support yet`);
-  }
-  if (f.mode === "DEFAULT") {
-    throw new UnsupportedScenarioError(`frame ${index}: DEFAULT-mode frames are not mapped yet`);
-  }
   if (f.role && UNSUPPORTED_ROLES.has(f.role)) {
     throw new UnsupportedScenarioError(`frame ${index}: role ${f.role} needs verifier/factory details not mapped yet`);
   }
@@ -55,6 +49,7 @@ function buildFrame(profile: Profile, f: Frame, index: number) {
     state: f.limits.state !== undefined ? BigInt(f.limits.state) : undefined,
     value: value > 0n ? value : undefined,
     data: f.data === "0x" ? undefined : (f.data as Hex),
+    flags: f.atomicBatch ? profile.flagBits["ATOMIC_BATCH"] : undefined,
     scope: f.mode === "VERIFY" ? ((f.role && APPROVE_SCOPE[f.role]) ?? "EXECUTION_AND_PAYMENT") : undefined,
   };
   return lib.frame(profile, f.mode, opts);

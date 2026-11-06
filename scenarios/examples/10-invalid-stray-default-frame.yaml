@@ -1,6 +1,10 @@
 id: invalid-stray-default-frame
 title: DEFAULT-mode frame that is neither deploy nor pre_verify
-description: Only deploy and pre_verify may be non-static DEFAULT frames in the prefix.
+description: >
+  HYPOTHESIS. On the wire a leading DEFAULT frame followed by a VERIFY frame is
+  indistinguishable from [deploy, self_verify], so the node's shape check accepts it.
+  Whether it is rejected later (PREFIX-020: a deploy frame must deploy tx.sender) can
+  only be seen from a funded run, since default-code targets may skip simulation.
 tags: [invalid, structure]
 exercises: [PREFIX-010, PREFIX-120]
 frames:

@@ -15,6 +15,12 @@ export const REASON_PATTERNS: ReasonPattern[] = [
     observedAt: "public devnet, 2026-11-06 (generic shape rejection; may also cover other prefix-shape rules)",
   },
   {
+    ruleId: "PREFIX-040",
+    pattern: /in validation prefix has ATOMIC_BATCH_FLAG set/i,
+    observedExample: "frame 0 in validation prefix has ATOMIC_BATCH_FLAG set",
+    observedAt: "public devnet, 2026-11-06",
+  },
+  {
     ruleId: "PREFIX-050",
     pattern: /is a VERIFY frame after the validation prefix/i,
     observedExample: "frame 2 is a VERIFY frame after the validation prefix (ends at index 0)",

@@ -1,7 +1,10 @@
 id: valid-pre-verify
 title: pre_verify frame before the approving frame
-description: A DEFAULT-mode pre_verify frame whose target is the approving frame's target.
-tags: [valid, pre-verify]
+description: >
+  A DEFAULT-mode pre_verify frame whose target is the approving frame's target.
+  PREFIX-110 requires that target to have deployed code, so this needs a wallet
+  contract as sender; with a plain EOA it is not a valid transaction.
+tags: [valid, pre-verify, needs-deployed-contract]
 exercises: [PREFIX-010, PREFIX-120]
 frames:
   - role: pre_verify

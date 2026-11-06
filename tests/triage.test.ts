@@ -54,3 +54,33 @@ describe("PREFIX-010 wording from the real devnet", () => {
     expect(r.observed.ruleIds).toEqual(["PREFIX-010"]);
   });
 });
+
+describe("solvency-stage stops and non-structural rules", () => {
+  const solvency = "validation frame 0: the payer 0x94b821d4cae56eb2691503b3d749fddc17f259cb has 0 wei, the transaction's maximum cost is 605652000000000 wei";
+
+  it("is inconclusive for rules that need simulation", () => {
+    const s = get("invalid-stray-default-frame");
+    const r = compare(s, predict(s), makeObservation(s, rejected(-32500, solvency)));
+    expect(r.result).toBe("inconclusive");
+    expect(r.finding).toBeUndefined();
+  });
+
+  it("still flags an admission of a structurally invalid transaction", () => {
+    const s = get("invalid-verify-after-prefix");
+    const r = compare(s, predict(s), makeObservation(s, { outcome: "admitted" }));
+    expect(r.result).toBe("finding");
+  });
+});
+
+describe("PREFIX-040 wording from the real devnet", () => {
+  it("attributes the atomic-flag rejection to PREFIX-040", () => {
+    const s = get("invalid-atomic-in-prefix");
+    const r = compare(
+      s,
+      predict(s),
+      makeObservation(s, rejected(-32602, "frame 0 in validation prefix has ATOMIC_BATCH_FLAG set")),
+    );
+    expect(r.result).toBe("pass");
+    expect(r.observed.ruleIds).toEqual(["PREFIX-040"]);
+  });
+});
