@@ -14,33 +14,38 @@ Adversyn is **not** a mempool, an explorer, an EVM, a generic contract auditor, 
 
 ## What it found so far
 
-Against the public devnet sidecar (`altmempoolgateway.forshtat.com`, chain 1337), using throwaway unfunded keys:
+Everything below comes from the public devnet sidecar (`altmempoolgateway.forshtat.com`, chain 1337) on 2026-11-06. A shared devnet can change under you, so behaviour is quoted with dates. Raw run files, screenshots and notes are in [`docs/evidence/`](docs/evidence/README.md). Open questions are in [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md). Nothing here is a confirmed vulnerability.
 
-| Rule (ERC-8421) | Confirmed enforced by the node | Node's wording (captured) |
+### Transactions admitted by the sidecar
+
+| Scenario | Result | Explorer |
 |---|---|---|
-| `PREFIX-010` prefix shape | yes | `frame transaction validation prefix not recognized` |
-| `PREFIX-040` no atomic flag in prefix | yes | `frame 0 in validation prefix has ATOMIC_BATCH_FLAG set` |
-| `PREFIX-050` no VERIFY after prefix | yes | `frame 2 is a VERIFY frame after the validation prefix (ends at index 0)` |
-| `BUDGET-010` verification gas budget | yes | `validation prefix execution gas sum 100001 + signature-verification cost 2800 = 102801 exceeds MAX_VERIFY_GAS 100000` |
+| `valid-self-verify` | admitted; the admission report shows every rule passed; in the pool (status New) when captured | [`0x430ef707…3854`](https://explorer.altmempool.wtf/tx/0x430ef7075e47898eb79f6581ef84a586da9a88ffd1c5fd1585dee49e78b73854?node=https%3A%2F%2Faltmempoolgateway.forshtat.com%2Frpc) |
+| `lead-deploy-not-deploying-sender` | admitted and seen on chain; a lead, not a finding (see below) | [`0xfcbd6c9f…533f`](https://explorer.altmempool.wtf/tx/0xfcbd6c9fd229b589d14a09e871aa73f3a2ecafb226630b2a00da005d6fe3533f?node=https%3A%2F%2Faltmempoolgateway.forshtat.com%2Frpc) |
 
-### A measured calibration
+"Admitted" means the sidecar accepted the transaction into its pool. `lead-deploy-not-deploying-sender` has a default-mode first frame that deploys nothing. ERC-8421 PREFIX-020 says the deploy frame must deploy `tx.sender`, and Adversyn's static policy does not encode that clause, so it cannot judge this. It is an open question for the maintainers.
 
-ERC-8421 says the intrinsic cost of validating the transaction's signatures counts toward the sender's 100,000 gas budget, but does not give a number. The sidecar reports **2,800** for a secp256k1 signature. Adversyn encodes that as an *observed* parameter (not a spec constant) and pins it with two boundary scenarios:
+### Rules confirmed enforced by the node
 
-| Sender verification gas | + signature cost | Result |
-|---|---|---|
-| 97,200 | = 100,000 | passes the structural checks |
-| 97,201 | = 100,001 | rejected for `BUDGET-010` |
+Throwaway unfunded keys, re-checked on the evening of 2026-11-06:
 
-So the effective limit for an unstaked sender is **97,200**, not 100,000.
+| Rule (ERC-8421) | Node's wording (captured) |
+|---|---|
+| `PREFIX-010` prefix shape | `frame transaction validation prefix not recognized` |
+| `PREFIX-040` no atomic flag in prefix | `frame 0 in validation prefix has ATOMIC_BATCH_FLAG set` |
+| `PREFIX-050` no VERIFY after prefix | `frame 1 is a VERIFY frame after the validation prefix (ends at index 0)` |
 
-### Latest run
+### Generated mutants
 
-```
-14 scenarios: 8 pass, 0 findings, 6 inconclusive/skipped, 0 errors
-```
+Three mutants of `valid-self-verify` were executed (`adversyn mutate`, then `adversyn run`). One matched its prediction (PREFIX-040). One was explained by a devnet change (below). One exposed a gap in the policy: the node rejected an atomic flag on the last frame, which comes from EIP-8141 and is not an ERC-8421 rule the policy encodes. Details: [`docs/evidence/mutants/`](docs/evidence/mutants/README.md) and [`docs/mutation.md`](docs/mutation.md).
 
-See [`docs/sample-report.md`](docs/sample-report.md) for the full table, or run it yourself below.
+### A measurement that stopped reproducing
+
+On the morning of 2026-11-06 the node enforced `BUDGET-010`: `validation prefix execution gas sum 100001 + signature-verification cost 2800 = 102801 exceeds MAX_VERIFY_GAS 100000`. The sidecar reported 2,800 for a secp256k1 signature, which Adversyn records as an *observed* parameter (not a spec constant). It put the effective limit for an unstaked sender at 97,200 (97,201 was rejected). Later that day the devnet maintainer restarted the devnet without gas limits, and the boundary stopped reproducing. `BUDGET-010` can no longer be tested on this devnet. Before and after runs: [`docs/evidence/budget-drift/`](docs/evidence/budget-drift/README.md).
+
+### Sample report
+
+[`docs/sample-report.md`](docs/sample-report.md) is a historical run from 2026-11-06 03:58 UTC (14 scenarios: 8 pass, 0 findings, 6 inconclusive/skipped), taken before the gas limits were removed. Run it yourself below; the budget scenarios will no longer be rejected on this devnet.
 
 ## How it handles uncertainty
 
