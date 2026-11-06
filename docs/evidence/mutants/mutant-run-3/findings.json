@@ -1,0 +1,115 @@
+[
+  {
+    "schemaVersion": 1,
+    "fingerprint": "337d6f48991d03c96c51b78e4dd9555c0758a8ce68e3e1a0df69f43f68e1469d",
+    "class": "no-oracle",
+    "status": "anomaly",
+    "severity": "low",
+    "title": "Node rejected a transaction for an unrecognised reason",
+    "policy": {
+      "id": "erc-8421-static",
+      "pins": [
+        {
+          "spec": "erc-8421",
+          "commit": "74a868cd"
+        }
+      ]
+    },
+    "scenarioId": "valid-self-verify.atomic-flag.8f8946c4",
+    "scenarioHash": "787ff5e5bb59d66698eefbc0692c3609a7761ca600d50688a8a290089b3fcffb",
+    "runId": "run-2026-11-06T15-36-16-552Z",
+    "expected": {
+      "verdict": "accept",
+      "ruleIds": []
+    },
+    "observed": {
+      "verdict": "reject",
+      "ruleIds": []
+    },
+    "evidence": {
+      "notes": [
+        "node said: Frame 1: atomic batch flag on last frame"
+      ],
+      "observation": {
+        "schemaVersion": 1,
+        "runId": "run-2026-11-06T15-36-16-552Z",
+        "scenarioId": "valid-self-verify.atomic-flag.8f8946c4",
+        "scenarioHash": "787ff5e5bb59d66698eefbc0692c3609a7761ca600d50688a8a290089b3fcffb",
+        "target": {
+          "name": "sidecar",
+          "rpcUrl": "https://altmempoolgateway.forshtat.com/rpc",
+          "chainId": 1337
+        },
+        "startedAt": "2026-11-06T15:36:20.991Z",
+        "durationMs": 2846.3750840000002,
+        "submit": {
+          "outcome": "rejected",
+          "rpcMethod": "eth_sendFrameTransaction",
+          "errorCode": -32500,
+          "errorMessage": "Frame 1: atomic batch flag on last frame",
+          "reasons": [
+            {
+              "text": "Frame 1: atomic batch flag on last frame",
+              "source": "rpc-error"
+            }
+          ]
+        },
+        "raw": {
+          "request": {
+            "chainId": "0x539",
+            "nonceKeys": [
+              "0x0"
+            ],
+            "nonceSeq": "0x2",
+            "sender": "0xFe9aBE424277eebc63Cd12D9892026f907dD374A",
+            "frames": [
+              {
+                "mode": 1,
+                "flags": 3,
+                "target": null,
+                "limits": {
+                  "execution": "0x7530",
+                  "state": "0x0"
+                },
+                "value": "0x0",
+                "data": "0x"
+              },
+              {
+                "mode": 2,
+                "flags": 4,
+                "target": "0x8943545177806ED17B9F23F0a21ee5948eCaa776",
+                "limits": {
+                  "execution": "0xc350",
+                  "state": "0x30d40"
+                },
+                "value": "0x3b9aca00",
+                "data": "0x"
+              }
+            ],
+            "signatures": [
+              {
+                "scheme": 1,
+                "signer": "0x",
+                "msg": "0x",
+                "signature": "0x008ff98b157c20389f597fb055b1b093c6a6d70d705d873e74ba98ab49f0695c6f6eac233c9e9750484e29d19e157c4d605af11878ab7b33c1ceba33b245f15a91"
+              }
+            ],
+            "fees": {
+              "maxPriorityFeePerGas": "0x77359400",
+              "maxFeePerGas": "0x77359400",
+              "maxFeePerBlobGas": "0x0"
+            },
+            "blobVersionedHashes": [],
+            "recentRootReferences": []
+          },
+          "response": {
+            "ok": false,
+            "code": "RPC_-32500",
+            "message": "Frame 1: atomic batch flag on last frame"
+          }
+        }
+      }
+    },
+    "detectedAt": "2026-11-06T15:36:23.841Z"
+  }
+]

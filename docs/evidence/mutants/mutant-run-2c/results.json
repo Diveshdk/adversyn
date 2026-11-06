@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "policy": "erc-8421-static:erc-8421@74a868cd",
+    "target": "https://altmempoolgateway.forshtat.com/rpc",
+    "generatedAt": "2026-11-06T15:34:16.221Z"
+  },
+  "entries": [
+    {
+      "scenarioId": "valid-self-verify.atomic-flag.9172d677",
+      "title": "Single self_verify frame (baseline) [atomic-flag]",
+      "predicted": {
+        "verdict": "reject",
+        "ruleIds": [
+          "PREFIX-040"
+        ]
+      },
+      "observed": {
+        "verdict": "reject",
+        "ruleIds": [
+          "PREFIX-040"
+        ],
+        "stage": "static"
+      },
+      "result": "pass",
+      "notes": [
+        "node said: frame 0 in validation prefix has ATOMIC_BATCH_FLAG set"
+      ]
+    }
+  ]
+}
