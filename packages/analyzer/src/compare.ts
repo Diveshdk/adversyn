@@ -112,7 +112,7 @@ export function compare(scenario: Scenario, prediction: Prediction, obs: Observa
     return { ...base, result: "inconclusive", notes: ["both reject, but the reason text is not recognised; verdict agrees, rule attribution unknown", ...o.texts.map((t) => "node said: " + t)] };
   }
   if (o.ruleIds.every((id) => prediction.violated.includes(id))) {
-    return { ...base, result: "pass", notes: [] };
+    return { ...base, result: "pass", notes: o.texts.map((t) => "node said: " + t) };
   }
   const f = finding("conformance", "anomaly", "medium",
     "Rejected for " + o.ruleIds.join(", ") + " but the policy predicts " + prediction.violated.join(", "), []);

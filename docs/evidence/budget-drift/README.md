@@ -28,9 +28,13 @@ Passing entries in `results.json` keep the verdict and rule id but not the raw n
 - The node accepts, at the stage where it used to reject, values above 100,000 gas for an unstaked sender, including values above the 1,000,000 staked cap.
 - The change happened between the `fifth` run and the 09:25 UTC run, and it predates every funded run, so the funded account is not the cause.
 - Unfunded probes stop at the solvency check, so they do not show whether the limit is enforced at a later stage. The one funded observation (97,201 admitted) is the only evidence past that point.
-- The cause is unknown. It may be an intended node or configuration change.
+- Cause: the devnet maintainer restarted the devnet "without any gas limits" (EthGlobal 26 Alt-mempool Telegram group, message from Alex Forshtat at 1:06 PM, after another team reported the flat 100,000 MAX_VERIFY_GAS cap rejecting their transaction). This is a deliberate devnet configuration change. It is not a node bug or a vulnerability. The gateway may have been restarted more than once since.
 - This is not a confirmed vulnerability. The ERC-8421 draft text read on 2026-11-06 still says unstaked entities MUST NOT exceed MAX_VERIFY_GAS_PER_ENTITY (100,000) and that signature cost counts toward the sender.
 
-## Open question for the maintainers
+## Consequence
 
-Was the sidecar updated or reconfigured on 2026-11-06? What is the intended unstaked per-entity limit now, and is the signature cost still counted toward the sender?
+BUDGET-010 cannot be tested on this devnet while the limit is removed. The earlier saved runs are the evidence that the rule was enforced earlier that day. Verification-gas behaviour should always be described with a date.
+
+## Probe size
+
+One probe (`probe-budget-10000000`) used a 10,000,000 gas verification frame from an unfunded throwaway key. It was sent before we had seen the maintainer's request not to send 10+ million gas verifications. It stopped at the solvency check and was not admitted. No further probes of that size were sent.

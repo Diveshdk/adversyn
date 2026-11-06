@@ -47,7 +47,9 @@ export function renderMarkdown(entries: ReportEntry[], meta: ReportMeta): string
       lines.push("");
     }
   }
-  const other = entries.filter((e) => !e.finding && e.notes.length && e.result !== "pass");
+  const other = entries.filter(
+    (e) => !e.finding && e.notes.length && (e.result !== "pass" || e.notes.some((n) => n.startsWith("node said:"))),
+  );
   if (other.length) {
     lines.push("", "## Notes", "");
     for (const e of other) for (const n of e.notes) lines.push("- " + e.scenarioId + ": " + n);
