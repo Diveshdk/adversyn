@@ -96,19 +96,36 @@ Requires Node 22+ and pnpm.
 
 ```bash
 pnpm install
-pnpm test                      # 60+ offline tests, no network needed
+pnpm test                      # 130+ offline tests, no network needed
 pnpm adversyn run              # run all example scenarios against the public devnet
 ```
 
 Useful options:
 
 ```bash
-pnpm adversyn run --only boundary-budget-97200,boundary-budget-97201
+pnpm adversyn run --only invalid-atomic-in-prefix,invalid-verify-after-prefix
 pnpm adversyn run --rpc http://localhost:14337/rpc/ --chain-id 9     # a local sidecar
 pnpm adversyn run --out out/my-run --fail-on-finding                 # exit 1 on any finding
 ```
 
-Reports are written to `out/<run-id>/` (`results.json`, `findings.json`, `report.md`).
+`--delay <ms>` sets the pause between submissions (default 300). Reports are written to `out/<run-id>/`, or to `--out` if given (`results.json`, `findings.json`, `report.md`). When the node rejects a transaction, the report keeps its wording as `node said: ...`.
+
+### Mutating scenarios
+
+`adversyn mutate` generates controlled variants of existing scenarios, offline and deterministically. It sends nothing to a node. Generated scenarios are candidates for testing, not findings. See [`docs/mutation.md`](docs/mutation.md).
+
+```bash
+pnpm adversyn mutate --out out/mutants                                   # all seeds, all operators
+pnpm adversyn mutate --only valid-self-verify --operators atomic-flag --out out/mutants-atomic
+```
+
+Operators: `gas-boundary`, `frame-order`, `frame-remove`, `frame-duplicate`, `role`, `atomic-flag`. Run a few, not all. A committed set lives in `scenarios/generated/`:
+
+```bash
+pnpm adversyn run scenarios/generated/scenarios --only valid-self-verify.atomic-flag.9172d677
+```
+
+Each case in the manifest carries the policy's prediction. A mismatch between prediction and what the node did is a lead to investigate, not a confirmed vulnerability.
 
 ### Funded runs
 
@@ -117,6 +134,8 @@ By default each scenario uses a fresh throwaway key with no balance. That is eno
 ```bash
 ADVERSYN_PRIVATE_KEY=0x... pnpm adversyn run --only valid-self-verify
 ```
+
+An admission prints `admitted, tx hash 0x...`. Look it up at `https://explorer.altmempool.wtf/tx/<hash>?node=<url-encoded RPC URL>` (the exact links used are in [`docs/evidence/`](docs/evidence/README.md)). "Admitted" means the sidecar accepted the transaction into its pool; it is not proof of inclusion. Funded runs send real transactions to a shared devnet, so keep them few.
 
 Never reuse a real key, and never commit one (`.env` is git-ignored).
 
@@ -166,13 +185,15 @@ apps/dashboard/       not started
 
 ## Known limitations
 
-Please read these before trusting a result.
+Please read these before trusting a result. The full list, with the open spec questions, is in [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md).
 
 - **Structural rules only.** Opcode, storage, calling, creation, reputation and lifecycle rules (`OPCODES-*`, `STORAGE-*`, `CALLING-*`, `CREATION-010`, `REPUTATION-*`, `LIFECYCLE-*`, `LOCAL-*`) are *not evaluated*. Every prediction lists them as unevaluated.
+- **ERC-8421 only.** EIP-8141's own constraints are not in the policy. A generated mutant found one: the node rejects an atomic flag on the last frame.
 - **Unfunded keys stop at solvency.** A "pass" at the solvency stage means the structural rules held, nothing more.
-- **Skipped scenarios (6 of 14):** two need a deployed contract (a paymaster, or a sender with code for `PREFIX-110`), two need the expiry verifier address for `PREFIX-080`, one needs stake in the registry, and one (`invalid-stray-default-frame`) is masked by the solvency stage and needs a funded run.
+- **The devnet changes.** On 2026-11-06 the maintainer removed the verification gas limits, so `BUDGET-010` no longer rejects there. Quote behaviour with dates.
+- **Skipped or inconclusive scenarios (6 of 14):** two need a deployed contract (a paymaster, or a sender with code for `PREFIX-110`), two need the expiry verifier address for `PREFIX-080`, one needs stake in the registry, and one (`lead-deploy-not-deploying-sender`) exercises a clause the policy does not evaluate, so it is inconclusive.
 - **Rule attribution is text-based.** The sidecar reports rejections as text. Adversyn matches known wording. The node reports a generic message for several prefix-shape rules, so `PREFIX-020` and `PREFIX-120` currently show up attributed to `PREFIX-010`.
-- **Spec pin.** The policy is tagged `erc-8421@74a868cd`, the commit the alt-mempool workshop pins. The rule text used to write it was read from the `pr-clean` branch of the ERC draft; whether that is identical to the pinned commit has not been verified.
+- **Spec pin.** The policy is tagged `erc-8421@74a868cd`, the commit the alt-mempool workshop pins. That commit is not in the history of the `pr-clean` branch (checked 2026-11-06). The rules the policy encodes are unchanged across all five commits of that branch (latest `493ba8a`).
 - **Draft specs.** EIP-8141 and ERC-8421 are drafts and devnets track different revisions. Expect rules and wording to change.
 - **One observed constant.** The 2,800-gas signature cost is measured from a single node and is not in the spec.
 
