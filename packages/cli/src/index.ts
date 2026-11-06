@@ -60,6 +60,9 @@ program
         };
       } else {
         entry = compare(scenario, prediction, res.observation);
+        if (res.observation.submit.outcome === "admitted" && res.observation.submit.txHash) {
+          entry.notes.push("admitted, tx hash " + res.observation.submit.txHash);
+        }
         await sleep(delay);
       }
       entries.push(entry);

@@ -190,10 +190,6 @@ Adversyn submits real transactions to shared infrastructure. Use fresh throwaway
 - The alt-mempool sidecar and devnet from the ERC-8421 workshop, and the ERC-8421 and EIP-8141 drafts.
 - TypeScript, pnpm workspaces, zod, viem, vitest.
 
-## How AI was used
-
-<!-- Edit this to match what you actually did before submitting. -->
-Claude (Anthropic) was used as a pair-programming assistant for architecture, code generation and debugging. All results above come from running the code against the real devnet; the node's rejection wording was captured from live responses, not written by the assistant. Rule behaviour was cross-checked against the ERC-8421 text.
 
 ## License
 

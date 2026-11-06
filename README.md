@@ -190,10 +190,14 @@ Adversyn submits real transactions to shared infrastructure. Use fresh throwaway
 - The alt-mempool sidecar and devnet from the ERC-8421 workshop, and the ERC-8421 and EIP-8141 drafts.
 - TypeScript, pnpm workspaces, zod, viem, vitest.
 
-## How AI was used
+## Definitions
+PREFIX-040: no prefix frame may carry the atomic batch flag. That flag groups frames to run together, and the rule forbids it during validation. Adversyn set it on a prefix frame, and the node said “frame 0 in validation prefix has ATOMIC_BATCH_FLAG set”.
 
-<!-- Edit this to match what you actually did before submitting. -->
-Claude (Anthropic) was used as a pair-programming assistant for architecture, code generation and debugging. All results above come from running the code against the real devnet; the node's rejection wording was captured from live responses, not written by the assistant. Rule behaviour was cross-checked against the ERC-8421 text.
+PREFIX-050: no VERIFY frame may come after the prefix. Validation frames are only allowed at the start. Adversyn put one later in the transaction, and the node said “frame 2 is a VERIFY frame after the validation prefix”.
+
+BUDGET-010: a limit on how much gas validation can use. An entity that hasn’t staked is allowed 100,000 gas for validation, and one that has staked is allowed 1,000,000. Checking the transaction’s signature also counts toward the sender’s share, and the spec says so without giving a number.
+
+
 
 ## License
 

@@ -59,7 +59,8 @@ describe("solvency-stage stops and non-structural rules", () => {
   const solvency = "validation frame 0: the payer 0x94b821d4cae56eb2691503b3d749fddc17f259cb has 0 wei, the transaction's maximum cost is 605652000000000 wei";
 
   it("is inconclusive for rules that need simulation", () => {
-    const s = get("invalid-stray-default-frame");
+    const base = get("lead-deploy-not-deploying-sender");
+    const s = { ...base, frames: [{ ...base.frames[0]!, role: "execution" as const }, ...base.frames.slice(1)] };
     const r = compare(s, predict(s), makeObservation(s, rejected(-32500, solvency)));
     expect(r.result).toBe("inconclusive");
     expect(r.finding).toBeUndefined();

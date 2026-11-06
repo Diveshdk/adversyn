@@ -1,0 +1,25 @@
+id: lead-deploy-not-deploying-sender
+title: Deploy frame whose target does not deploy tx.sender
+description: >
+  LEAD, NOT A KNOWN VIOLATION. The first frame is a DEFAULT-mode frame to an ordinary
+  address, followed by a self_verify frame. On the wire this is the shape
+  [deploy, self_verify], so PREFIX-010 and PREFIX-120 cannot distinguish it from a valid
+  transaction. ERC-8421 PREFIX-020 says the deploy frame MUST result in a successful
+  deployment of tx.sender, which this frame cannot do. The static policy does not encode
+  that clause, so its prediction here is not meaningful. On 2026-11-06 the public sidecar
+  admitted this transaction (tx 0xfcbd6c9fd229b589d14a09e871aa73f3a2ecafb226630b2a00da005d6fe3533f).
+  Open question for the maintainers: does admission check that clause, or does the
+  PREFIX-100 exemption for default-code targets skip it?
+tags: [lead, structure]
+exercises: [PREFIX-020]
+frames:
+  - role: deploy
+    mode: DEFAULT
+    target: "0x8943545177806ED17B9F23F0a21ee5948eCaa776"
+    limits: { execution: 5000 }
+  - role: self_verify
+    mode: VERIFY
+    target: sender
+    limits: { execution: 30000 }
+expect:
+  verdict: accept
