@@ -143,6 +143,7 @@ export const RULES: Rule[] = [prefix010, prefix020, prefix040, prefix050, prefix
 
 export const UNEVALUATED = [
   "SIGNATURE-010",
+  "PREFIX-020 (clause: the deploy frame must deploy tx.sender)",
   "PREFIX-060",
   "PREFIX-100",
   "PREFIX-110",
